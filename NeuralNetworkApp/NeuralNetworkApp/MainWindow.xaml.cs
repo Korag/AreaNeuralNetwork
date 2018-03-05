@@ -23,6 +23,9 @@ namespace NeuralNetworkApp
         public MainWindow()
         {
             InitializeComponent();
+            
+
+            // Kamil jest gujem zaćpanym (Korełe)
         }
     }
 }
