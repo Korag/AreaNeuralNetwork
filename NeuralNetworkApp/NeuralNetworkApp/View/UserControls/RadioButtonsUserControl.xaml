@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="NeuralNetworkApp.View.UserControls.RadioButtonsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeuralNetworkApp.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="200">
+    <StackPanel Name="mainStackPanel" Style="{StaticResource RadioButtonsStyle}" Orientation="Horizontal">
+        <StackPanel Name="textBlockStackPanel">
+            <TextBlock Text="Random"></TextBlock>
+            <TextBlock Text="Book"></TextBlock>
+            <TextBlock Text="Collection"></TextBlock>
+            <TextBlock Text="Keyboard"></TextBlock>
+        </StackPanel>
+        <StackPanel Name="radioButtonStackPanel">
+            <RadioButton Name="radioRandom" RenderTransformOrigin="0,0.3">
+                <RadioButton.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </RadioButton.RenderTransform>
+            </RadioButton>
+            <RadioButton Name="radioBook" RenderTransformOrigin="0,0.3">
+                <RadioButton.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </RadioButton.RenderTransform>
+            </RadioButton>
+            <RadioButton Name="radioCollection" RenderTransformOrigin="0,0.3">
+                <RadioButton.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </RadioButton.RenderTransform>
+            </RadioButton>
+            <RadioButton Name="radioKeyboard" RenderTransformOrigin="0,0.3">
+                <RadioButton.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </RadioButton.RenderTransform>
+            </RadioButton>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>
