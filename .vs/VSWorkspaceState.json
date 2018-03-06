@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\NeuralNetworkApp",
+    "\\NeuralNetworkApp\\NeuralNetworkApp"
   ],
+  "SelectedNode": "\\NeuralNetworkApp\\NeuralNetworkApp\\MainWindow.xaml.cs",
   "PreviewInSolutionExplorer": false
 }
