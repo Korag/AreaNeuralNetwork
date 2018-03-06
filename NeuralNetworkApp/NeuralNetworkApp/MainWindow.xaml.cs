@@ -24,7 +24,7 @@ namespace NeuralNetworkApp
         {
             InitializeComponent();
             
-
+            //ver 2.1
             
         }
     }
