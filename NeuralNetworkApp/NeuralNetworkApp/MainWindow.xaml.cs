@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using NeuralNetworkApp.View.UserControls;
 namespace NeuralNetworkApp
 {
     /// <summary>
@@ -20,11 +20,37 @@ namespace NeuralNetworkApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private  List<int> NumberOfPointsList = new List<int>();
+        private void FillTheList()
+        {
+            for (int i = 1; i <= 6; i++)
+            {
+                NumberOfPointsList.Add(i);
+            }
+        }
         public MainWindow()
         {
-            InitializeComponent();
+            FillTheList();
             
+            InitializeComponent();
+            numberOfPointsComboBox.ItemsSource = NumberOfPointsList;
             //ver 2.1
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (pointValueUserControl item in pointsWrapPanel.Children)
+            {
+                item.Visibility = Visibility.Hidden;
+            }
+
+            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
+            {
+                var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;
+                tempList.Visibility = Visibility.Visible;
+            }
+
             
         }
     }

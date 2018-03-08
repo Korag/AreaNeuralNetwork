@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeuralNetworkApp.View.UserControls"
+        xmlns:my="clr-namespace:NeuralNetworkApp.View.UserControls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280" MinHeight="400" MinWidth="600">
@@ -16,40 +17,58 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="300*"/>
+            <ColumnDefinition Width="250*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Weights: " HorizontalAlignment="Center" FontSize="20"/>
+        <StackPanel Grid.ColumnSpan="2">
+            <TextBlock  Text="Iteration:" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" />
+            <TextBlock  Text="0" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" />
+        </StackPanel>
+            
+       
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <TextBlock Text="Weights: " HorizontalAlignment="Center" FontSize="20" />
             <local:RadioButtonsUserControl Grid.Column="0" x:Name="userCtrl1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20"/>
             <local:RadioButtonsUserControl Grid.Column="0" x:Name="userCtrl2"/>
         </StackPanel>
-        <DockPanel  Grid.Row="1">
+        
+            <DockPanel  Grid.Row="1">
             <TabControl>
-                <TabItem Header="Points"  />
-                <TabItem Header="Weights" />
-                <TabItem Header="DValues" />
+                <TabItem Name="pointsDockPanel" Header="Points" >
+                    <WrapPanel Name="pointsWrapPanel">
+                        <my:pointValueUserControl  Text1="X1 = " Visibility="Hidden"/>
+                        <my:pointValueUserControl  Text1="X2 = " Visibility="Hidden"/>
+                        <my:pointValueUserControl  Text1="X3 = " Visibility="Hidden"/>
+                        <my:pointValueUserControl  Text1="X4 = " Visibility="Hidden"/>
+                        <my:pointValueUserControl  Text1="X5 = " Visibility="Hidden"/>
+                        <my:pointValueUserControl  Text1="X6 = " Visibility="Hidden"/>
+                    </WrapPanel>
+                </TabItem>
+                
+                <TabItem Name="weightsDockPanel" Header="Weights" />
+                <TabItem Name="dvaluesDockPanel" Header="DValues" />
             </TabControl>
         </DockPanel>
+        
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
             <StackPanel Margin="10,0,0,0">
-                <TextBlock Height="25" Text="C = " HorizontalAlignment="Left" Margin="0,20,0,0" FontSize="20"/>
-                <TextBlock Height="25" Text="Number of points = " HorizontalAlignment="Left" Margin="0,40,0,0" VerticalAlignment="Top" FontSize="20"/>
+                <TextBlock Height="25" Text="Number of points = " HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                <TextBlock Height="25" Text="C = " HorizontalAlignment="Left" Margin="0,40,0,0" FontSize="20"/>
                 <TextBlock Height="25" Text="Max iterations = " HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" FontSize="20"/>
             </StackPanel>
             <StackPanel>
-                <TextBox Width="50" Height="25" Margin="0,20,0,0"/>
-                <ListBox Width="25" Height="25" Margin="0,40,0,0"/>
-                <TextBox Width="50" Height="25" Margin="0,60,0,0"/>
+                <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0"/>              
+                <TextBox Width="30" Height="25" Margin="0,40,0,0"/>
+                <TextBox Width="30" Height="25" Margin="0,60,0,0"/>
             </StackPanel>
         </StackPanel>
-        <Image Grid.Column="2" Grid.RowSpan="2" Stretch="Fill" Source="C:\Users\user\Source\Repos\neural_i\NeuralNetworkApp\NeuralNetworkApp\View\XD\Mkordos.jpg"/>
-        <Image Grid.Column="2" Grid.Row="2" Stretch="Fill" Source="C:\Users\user\Source\Repos\neural_i\NeuralNetworkApp\NeuralNetworkApp\View\XD\Zawislak.jpg"/>
+        <Image Grid.Column="2" Grid.RowSpan="2" Stretch="Fill" Source="/View/XD/Mkordos.jpg"/>
+        <Image Grid.Column="2" Grid.Row="2" Stretch="Fill" Source="/View/XD/Zawislak.jpg"/>
         <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Messages from application: " FontSize="20" />
         <DataGrid Grid.ColumnSpan="2" Grid.Row="2" Margin="10,30,10,50"/>
-        <Button Content="Start" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,10"/>
+        <Button Content="Start" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,10" Click="Button_Click"/>
         <Button Content="Stop" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,10"/>
         <Button Content="Reset" Grid.Column="1" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,10"/>
         <Button Content="TXT/PDF" Grid.Column="1" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,10"/>
