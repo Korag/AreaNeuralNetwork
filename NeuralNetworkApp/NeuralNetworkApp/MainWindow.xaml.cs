@@ -21,7 +21,7 @@ namespace NeuralNetworkApp
     public partial class MainWindow : Window
     {
         private  List<int> NumberOfPointsList = new List<int>();
-        int IDontHaveAnIdea = 0;//głupie ale na razie działa :D
+        int StartChecker = 0;//głupie ale na razie działa :D
 
         private void FillTheList()
         {
@@ -63,11 +63,11 @@ namespace NeuralNetworkApp
         private void userCtrl2_Checked1(object sender, RoutedEventArgs e)
         {
             Random rand = new Random();
-            IDontHaveAnIdea++;
-            if (IDontHaveAnIdea==2)
+            StartChecker++;
+            if (StartChecker==2)
             {
                 StartButton.IsEnabled = true;
-                IDontHaveAnIdea = 0;
+                StartChecker = 0;
             }
 
             
@@ -82,11 +82,11 @@ namespace NeuralNetworkApp
 
         private void userCtrl1_Checked1(object sender, RoutedEventArgs e)
         {
-            IDontHaveAnIdea++;
-            if (IDontHaveAnIdea == 2)
+            StartChecker++;
+            if (StartChecker == 2)
             {
                 StartButton.IsEnabled = true;
-                IDontHaveAnIdea = 0;
+                StartChecker = 0;
             }
 
         }
