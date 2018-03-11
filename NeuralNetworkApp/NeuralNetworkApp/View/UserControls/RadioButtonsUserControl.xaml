@@ -14,7 +14,7 @@
             <TextBlock Text="Keyboard"></TextBlock>
         </StackPanel>
         <StackPanel Name="radioButtonStackPanel">
-            <RadioButton Name="radioRandom" RenderTransformOrigin="0,0.3">
+            <RadioButton Name="radioRandom" RenderTransformOrigin="0,0.3"  Checked="CheckedRadio1" >
                 <RadioButton.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -24,7 +24,17 @@
                     </TransformGroup>
                 </RadioButton.RenderTransform>
             </RadioButton>
-            <RadioButton Name="radioBook" RenderTransformOrigin="0,0.3">
+            <RadioButton Name="radioBook" RenderTransformOrigin="0,0.3" Checked="CheckedRadio2">
+                <RadioButton.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </RadioButton.RenderTransform>
+            </RadioButton >
+            <RadioButton Name="radioCollection" RenderTransformOrigin="0,0.3" Checked="CheckedRadio3">
                 <RadioButton.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -34,17 +44,7 @@
                     </TransformGroup>
                 </RadioButton.RenderTransform>
             </RadioButton>
-            <RadioButton Name="radioCollection" RenderTransformOrigin="0,0.3">
-                <RadioButton.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="2" ScaleY="2"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </RadioButton.RenderTransform>
-            </RadioButton>
-            <RadioButton Name="radioKeyboard" RenderTransformOrigin="0,0.3">
+            <RadioButton Name="radioKeyboard" RenderTransformOrigin="0,0.3" Checked="CheckedRadio4">
                 <RadioButton.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>

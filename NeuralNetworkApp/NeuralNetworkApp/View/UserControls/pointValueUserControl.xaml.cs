@@ -21,19 +21,19 @@ namespace NeuralNetworkApp.View.UserControls
     public partial class pointValueUserControl : UserControl
     {
         public static readonly DependencyProperty TextProperty1 =
-        DependencyProperty.Register("Text1", typeof(String),
+        DependencyProperty.Register("TextValue", typeof(String),
         typeof(pointValueUserControl), new FrameworkPropertyMetadata(string.Empty));
 
-        public String Text1
+        public String TextValue
         {
             get { return GetValue(TextProperty1).ToString(); }
             set { SetValue(TextProperty1, value); }
         }
 
         public static readonly DependencyProperty TextProperty2 =
-        DependencyProperty.Register("Text2", typeof(String),
+        DependencyProperty.Register("FirstValueText", typeof(String),
         typeof(pointValueUserControl), new FrameworkPropertyMetadata(string.Empty));
-        public String Text2
+        public String FirstValueText
         {
             get { return GetValue(TextProperty2).ToString(); }
             set { SetValue(TextProperty2, value); }
@@ -41,13 +41,22 @@ namespace NeuralNetworkApp.View.UserControls
         }
 
         public static readonly DependencyProperty TextProperty3 =
-        DependencyProperty.Register("Text3", typeof(String),
+        DependencyProperty.Register("SecondValueText", typeof(String),
         typeof(pointValueUserControl), new FrameworkPropertyMetadata(string.Empty));
-        public String Text3
+        public String SecondValueText
         {
             get { return GetValue(TextProperty3).ToString(); }
             set { SetValue(TextProperty3, value); }
         }
+        public static readonly DependencyProperty TextProperty4 =
+       DependencyProperty.Register("ThirdValueText", typeof(String),
+       typeof(pointValueUserControl), new FrameworkPropertyMetadata("-1"));
+        public String ThirdValueText
+        {
+            get { return GetValue(TextProperty4).ToString(); }
+            set { SetValue(TextProperty4, value); }
+        }
+
 
         public pointValueUserControl()
         {
