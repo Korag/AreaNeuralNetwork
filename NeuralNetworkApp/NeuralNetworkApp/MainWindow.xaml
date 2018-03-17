@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:NeuralNetworkApp.View.UserControls"
         xmlns:my="clr-namespace:NeuralNetworkApp.View.UserControls"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280" MinHeight="400" MinWidth="600">
     <Grid>
@@ -31,7 +32,6 @@
             <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20"/>
             <local:RadioButtonsUserControl Grid.Column="0" x:Name="userCtrl2" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="userCtrl2_Checked1"/>
         </StackPanel>
-
         <DockPanel  Grid.Row="1">
             <TabControl>
                 <TabItem Name="pointsDockPanel" Header="Points" >
@@ -61,9 +61,9 @@
                     </ScrollViewer>
                 </TabItem>
             </TabControl>
-                
+
         </DockPanel>
-        
+
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
             <StackPanel Margin="10,0,0,0">
                 <TextBlock Height="25" Text="Number of points = " HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
@@ -71,15 +71,17 @@
                 <TextBlock Height="25" Text="Max iterations = " HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" FontSize="20"/>
             </StackPanel>
             <StackPanel>
-                <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>              
+                <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>
                 <TextBox Width="30" Height="25" Margin="0,40,0,0"/>
                 <TextBox Width="30" Height="25" Margin="0,60,0,0"/>
             </StackPanel>
         </StackPanel>
-        <Image Grid.Column="2" Grid.RowSpan="2" Stretch="Fill" />
-        <Image Grid.Column="2" Grid.Row="2" Stretch="Fill" />
+        <!--<Image Grid.Column="2" Grid.RowSpan="2" Stretch="Fill" />-->
+        <Grid/>
+        <Grid/>
+
         <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Messages from application: " FontSize="20" />
-        <RichTextBox Grid.ColumnSpan="2" Grid.Row="2" Margin="10,30,10,50" IsReadOnly="True"/>
+        <RichTextBox Grid.ColumnSpan="2" Grid.Row="2" Margin="15,35,4.667,45" IsReadOnly="True"/>
         <Button Content="Start" Name="StartButton" IsEnabled="False" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,10" Click="StartButton_Click"/>
         <Button Content="Stop" Name="StopButton" IsEnabled="False" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,10" Click="StopButton_Click"/>
         <Button Content="Reset" Name="ResetButton" Grid.Column="1" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,10"/>

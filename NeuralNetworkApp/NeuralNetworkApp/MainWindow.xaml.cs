@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NeuralNetworkApp.View.UserControls;
+
 namespace NeuralNetworkApp
 {
     /// <summary>
@@ -22,6 +23,8 @@ namespace NeuralNetworkApp
     {
         private  List<int> NumberOfPointsList = new List<int>();
         int StartChecker = 0;//głupie ale na razie działa :D
+
+   
 
         private void FillTheList()
         {
@@ -34,8 +37,8 @@ namespace NeuralNetworkApp
         public MainWindow()
         {
             FillTheList();
-            
             InitializeComponent();
+
             numberOfPointsComboBox.ItemsSource = NumberOfPointsList;
             //ver 2.1
 
