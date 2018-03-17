@@ -14,7 +14,7 @@
             <TextBlock Text="Keyboard"></TextBlock>
         </StackPanel>
         <StackPanel Name="radioButtonStackPanel">
-            <RadioButton Name="radioRandom" RenderTransformOrigin="0,0.3"  Checked="CheckedRadio1" >
+            <RadioButton Name="radioRandom" RenderTransformOrigin="0,0.3"  Checked="CheckedRadio1" IsChecked="True" >
                 <RadioButton.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>
