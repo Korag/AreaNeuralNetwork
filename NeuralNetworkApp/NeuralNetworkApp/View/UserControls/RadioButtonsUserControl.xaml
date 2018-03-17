@@ -24,7 +24,7 @@
                     </TransformGroup>
                 </RadioButton.RenderTransform>
             </RadioButton>
-            <RadioButton Name="radioBook" RenderTransformOrigin="0,0.3" Checked="CheckedRadio2">
+            <RadioButton Name="radioBook" RenderTransformOrigin="0,0.3" Checked="CheckedRadio1">
                 <RadioButton.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -34,7 +34,7 @@
                     </TransformGroup>
                 </RadioButton.RenderTransform>
             </RadioButton >
-            <RadioButton Name="radioCollection" RenderTransformOrigin="0,0.3" Checked="CheckedRadio3">
+            <RadioButton Name="radioCollection" RenderTransformOrigin="0,0.3" Checked="CheckedRadio1">
                 <RadioButton.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -44,7 +44,7 @@
                     </TransformGroup>
                 </RadioButton.RenderTransform>
             </RadioButton>
-            <RadioButton Name="radioKeyboard" RenderTransformOrigin="0,0.3" Checked="CheckedRadio4">
+            <RadioButton Name="radioKeyboard" RenderTransformOrigin="0,0.3" Checked="CheckedRadio1">
                 <RadioButton.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="2" ScaleY="2"/>

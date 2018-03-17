@@ -54,17 +54,14 @@ namespace NeuralNetworkApp
             SelectWeightOptionFromRadioBoxes();
             SavePointsAndWeightsValuesToArray();
         
-            }
+        }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-            
+        {                       
             StopButton.IsEnabled = true;
             StartButton.IsEnabled = false;
 
             MainCalculations();
-
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -131,6 +128,7 @@ namespace NeuralNetworkApp
             }
             else
             {
+                numberOfPointsComboBox.SelectedIndex = 0;
                 MessageBox.Show("The Book contains only 3 points!");
             }
         }
@@ -187,6 +185,7 @@ namespace NeuralNetworkApp
             }
             else
             {
+                numberOfPointsComboBox.SelectedIndex = 0;
                 MessageBox.Show("The Book contains only 3 points!");
             }
         }
@@ -243,7 +242,15 @@ namespace NeuralNetworkApp
                       
         }
 
+        private void WeightRadioButtons_Checked1(object sender, RoutedEventArgs e)
+        {
+            
+            SelectWeightOptionFromRadioBoxes();
+        }
 
-
+        private void PointRadioButtons_Checked1(object sender, RoutedEventArgs e)
+        {
+            SelectPointOptionFromRadioBoxes();
+        }
     }
 }

@@ -26,11 +26,11 @@
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <TextBlock Text="Weights: " HorizontalAlignment="Center" FontSize="20" />
-            <local:RadioButtonsUserControl Grid.Column="0" x:Name="WeightRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <local:RadioButtonsUserControl Grid.Column="0" x:Name="WeightRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="WeightRadioButtons_Checked1"/>
         </StackPanel>
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20" />
-            <local:RadioButtonsUserControl Grid.Column="0" x:Name="PointRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <local:RadioButtonsUserControl Grid.Column="0" x:Name="PointRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="PointRadioButtons_Checked1"/>
         </StackPanel>
         <DockPanel  Grid.Row="1">
             <TabControl>
@@ -69,8 +69,8 @@
 
         </DockPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-            <StackPanel Margin="10,0,0,0">
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel  Margin="10,0,0,0">
                 <TextBlock Height="25" Text="Number of points = " HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
                 <TextBlock Height="25" Text="C = " HorizontalAlignment="Left" Margin="0,30,0,0" FontSize="20"/>
                 <TextBlock Height="25" Text="Max iterations = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
