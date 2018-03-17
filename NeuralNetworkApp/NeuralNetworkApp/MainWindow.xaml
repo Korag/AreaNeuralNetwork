@@ -77,18 +77,18 @@
                 <TextBlock Height="25" Text="Sleep Timer = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
             </StackPanel>
             <StackPanel>
-                <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>              
-                <TextBox Width="30" Height="25" Margin="0,40,0,0"/>
-                <TextBox Width="30" Height="25" Margin="0,60,0,0"/>
+                <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>
+                <TextBox  Name="ConstCTextBox"  Width="30" Height="25" Margin="0,30,0,0"/>
+                <TextBox  Name="MaxIetrationsTextBox"  Width="30" Height="25" Margin="0,30,0,0"/>
+                <TextBox  Name="SleepTimerTextBox"  Width="30" Height="25" Margin="0,30,0,0"/>
             </StackPanel>
         </StackPanel>
         <!--<Image Grid.Column="2" Grid.RowSpan="2" Stretch="Fill" />-->
-        <Grid/>
-        <Grid/>
-
+        <local:LiveChartUserControl Grid.Column="2" Grid.RowSpan="2"/>
+        <local:LiveChartUserControl Grid.Column="2" Grid.Row="2"/>
         <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Messages from application: " FontSize="20" />
         <RichTextBox Grid.ColumnSpan="2" Grid.Row="2" Margin="10,30,10,50" IsReadOnly="True"/>
-        <Button Content="Start" Name="StartButton" IsEnabled="False" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,10" Click="StartButton_Click"/>
+        <Button Content="Start" Name="StartButton" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,10" Click="StartButton_Click"/>
         <Button Content="Stop" Name="StopButton" IsEnabled="False" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,10" Click="StopButton_Click"/>
         <Button Content="Reset" Name="ResetButton" Grid.Column="1" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="30,0,0,10"/>
         <Button Content="TXT/PDF" Name="TxtButton" Grid.Column="1" Grid.Row="2" Width="80" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,10"/>
