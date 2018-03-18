@@ -23,9 +23,10 @@ namespace NeuralNetworkApp
     public partial class MainWindow : Window
     {
         DispatcherTimer timer = new DispatcherTimer();
-        private  List<int> NumberOfPointsList = new List<int>();
+        private List<int> NumberOfPointsList = new List<int>();
         private List<int[]> PointsList;
         private List<int[]> WeightsList;
+        private List<int> resultList;
         public int Iteration { get; set; }
         private void FillTheList()
         {
@@ -37,13 +38,10 @@ namespace NeuralNetworkApp
         }
         public MainWindow()
         {
-            Iteration = 0;
             FillTheList();           
             InitializeComponent();
             numberOfPointsComboBox.ItemsSource = NumberOfPointsList;
             CurrentIterationTextBlock.DataContext = this;
-            //ver 2.1
-
         }
 
         private void numberOfPointsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -58,7 +56,8 @@ namespace NeuralNetworkApp
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
-        {                       
+        {
+            Iteration = 0;
             StopButton.IsEnabled = true;
             StartButton.IsEnabled = false;
 
@@ -81,7 +80,7 @@ namespace NeuralNetworkApp
             {
                 item.Visibility = Visibility.Hidden;
             }
-            foreach (DValueUserControl item in dValuesWrapPanel.Children)
+            foreach (pointValueUserControl item in dValuesWrapPanel.Children)
             {
                 item.Visibility = Visibility.Hidden;
             }
@@ -90,7 +89,7 @@ namespace NeuralNetworkApp
             {
                 var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;//punkty
                 var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi
-                var tempList3 = dValuesWrapPanel.Children[i] as DValueUserControl;//wartosci oczekiwane
+                var tempList3 = dValuesWrapPanel.Children[i] as pointValueUserControl;//wartosci oczekiwane
                 tempList.Visibility = Visibility.Visible;
                 tempList2.Visibility = Visibility.Visible;
                 tempList3.Visibility = Visibility.Visible;
@@ -226,20 +225,21 @@ namespace NeuralNetworkApp
         {
             PointsList = new List<int[]>();
             WeightsList = new List<int[]>();
-            int[] tempPointArray = new int[3];
-            int[] tempWeightArray = new int[3];
+            
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
+                int[] tempPointArray = new int[3];
+                int[] tempWeightArray = new int[3];
                 var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;//punkty
                 var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi
 
                     tempPointArray[0] = Convert.ToInt32(tempList.pointValueTextBox1.Text);
-                    tempPointArray[1] = Convert.ToInt32(tempList.pointValueTextBox1.Text);
-                    tempPointArray[2] = Convert.ToInt32(tempList.pointValueTextBox1.Text);
+                    tempPointArray[1] = Convert.ToInt32(tempList.pointValueTextBox2.Text);
+                    tempPointArray[2] = Convert.ToInt32(tempList.pointValueTextBox3.Text);
 
                     tempWeightArray[0] = Convert.ToInt32(tempList2.pointValueTextBox1.Text);
-                    tempWeightArray[1] = Convert.ToInt32(tempList2.pointValueTextBox1.Text);
-                    tempWeightArray[2] = Convert.ToInt32(tempList2.pointValueTextBox1.Text);
+                    tempWeightArray[1] = Convert.ToInt32(tempList2.pointValueTextBox2.Text);
+                    tempWeightArray[2] = Convert.ToInt32(tempList2.pointValueTextBox3.Text);
 
                 PointsList.Add(tempPointArray);
                 WeightsList.Add(tempWeightArray);
@@ -251,18 +251,105 @@ namespace NeuralNetworkApp
         {           
             int C = Convert.ToInt32(ConstCTextBox.Text);
             int SleepTimer = Convert.ToInt32(SleepTimerTextBox.Text);
-
-            while (Iteration <= Convert.ToInt32(MaxIetrationsTextBox.Text))
+            var CurrentPoint = PointsList[0];
+            while (Iteration < Convert.ToInt32(MaxIetrationsTextBox.Text))
             {
-
-
-
+                
+                var Iteration2 = Iteration % Convert.ToInt32(numberOfPointsComboBox.SelectedItem);
+                UpdateTextBox(Iteration);//wyświetlanie wiadomości na konsoli
+                CurrentPoint = PointsList[Iteration2];//wybór aktualnego punktu
+                SgnFunction(CurrentPoint, WeightsList);//funkcja aktywacji
+                ChangeWeightIfNeeded(Iteration);//zmiana wag
+                
                 Iteration++;
                 CurrentIterationTextBlock.Text = Iteration.ToString();
-               // Thread.Sleep(SleepTimer * 1000);               
+
+
+                // Thread.Sleep(SleepTimer * 1000);               
             }
             StartButton.IsEnabled = true;
                       
+        }
+
+        private List<int> SgnFunction(int[] Point, List<int[]> WeightsList)//jeden punkt przemnożony przez każdą wagę
+        {
+            resultList = new List<int>();
+            int sum = 0;
+            for (int i = 0; i < WeightsList.Count; i++)
+            {
+                var Weight = WeightsList[i];
+                for (int j = 0; j < Weight.Length; j++)
+                {
+                    sum += Point[j] * Weight[j];                    
+                }
+                if (sum<=0)
+                {
+                    resultList.Add(-1);
+                }
+                else
+                {
+                    resultList.Add(1);
+                }
+                sum = 0;
+            }
+            return resultList;
+        }
+
+        private void ChangeWeightIfNeeded(int MainIteration)
+        {
+            var Iteration = MainIteration % Convert.ToInt32(numberOfPointsComboBox.SelectedItem);
+            //musi tak byc w przypadku gdyby 1 z Y pokrywała 
+            List<int> tempDValueList = new List<int>();
+            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
+            {
+                if (i == Iteration)
+                {
+                    tempDValueList.Add(1);
+                }
+                else
+                {
+                    tempDValueList.Add(-1);
+                }                
+            }
+            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
+            {
+                if (resultList[i] != tempDValueList[i])
+                {
+                    var Weight = WeightsList[i];
+                    var Point = PointsList[Iteration];
+                    for (int j = 0; j < Weight.Length; j++)
+                    {
+                        Weight[j] =(int)(Weight[j] + (1.0/2.0) * Convert.ToInt32(ConstCTextBox.Text) * (tempDValueList[i] - resultList[i]) * Point[j]);
+                    }
+                    WeightsList[i] = Weight;
+
+                }
+            }
+          
+        }
+
+        private void UpdateTextBox(int MainIteration)
+        { 
+            ConsoleTextBox.Text += "Iteration: " + (MainIteration + 1) + "\n\r";
+            string pointsString = "";
+            for (int i = 0; i < PointsList.Count; i++)
+            {
+                var Point = PointsList[i];
+                var Weight = WeightsList[i];
+                foreach (var item in Point)
+                {
+                    pointsString += item+" ";
+                }
+                ConsoleTextBox.Text += "P" + (i + 1) + " [ " + pointsString + "] ";
+                pointsString = "";
+                foreach (var item in Weight)
+                {
+                    pointsString += item + " ";
+                }
+                ConsoleTextBox.Text += "W" + (i + 1) + " [ " + pointsString + "] " + "\n\r";
+                pointsString = "";
+            }
+            
         }
 
         private void WeightRadioButtons_Checked1(object sender, RoutedEventArgs e)
