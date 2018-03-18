@@ -252,5 +252,15 @@ namespace NeuralNetworkApp
         {
             SelectPointOptionFromRadioBoxes();
         }
+
+        private void LiveChartUserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LiveChartUserControl_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
