@@ -50,24 +50,12 @@
                 <TabItem Name="weightsDockPanel" Header="Weights" >
                     <ScrollViewer>
                         <WrapPanel Name="weightsWrapPanel">
-                            <my:pointValueUserControl x:Name="W1" TextValue="X1 = " Visibility="Hidden" />
-                            <my:pointValueUserControl x:Name="W2" TextValue="X2 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="W3" TextValue="X3 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="W4" TextValue="X4 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="W5" TextValue="X5 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="W6" TextValue="X6 = " Visibility="Hidden"/>
-                        </WrapPanel>
-                    </ScrollViewer>
-                </TabItem>
-                <TabItem Name="dvaluesDockPanel" Header="DValues" >
-                    <ScrollViewer>
-                        <WrapPanel Name="dValuesWrapPanel">
-                            <my:pointValueUserControl x:Name="D1" TextValue="D1 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="D2" TextValue="D2 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="D3" TextValue="D3 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="D4" TextValue="D4 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="D5" TextValue="D5 = " Visibility="Hidden"/>
-                            <my:pointValueUserControl x:Name="D6" TextValue="D6 = " Visibility="Hidden"/>
+                            <my:pointValueUserControl x:Name="W1" TextValue="W1 = " Visibility="Hidden" />
+                            <my:pointValueUserControl x:Name="W2" TextValue="W2 = " Visibility="Hidden"/>
+                            <my:pointValueUserControl x:Name="W3" TextValue="W3 = " Visibility="Hidden"/>
+                            <my:pointValueUserControl x:Name="W4" TextValue="W4 = " Visibility="Hidden"/>
+                            <my:pointValueUserControl x:Name="W5" TextValue="W5 = " Visibility="Hidden"/>
+                            <my:pointValueUserControl x:Name="W6" TextValue="W6 = " Visibility="Hidden"/>
                         </WrapPanel>
                     </ScrollViewer>
                 </TabItem>

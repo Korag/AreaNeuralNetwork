@@ -50,14 +50,13 @@ namespace NeuralNetworkApp
             ChangeChartsVisibility();
             SelectPointOptionFromRadioBoxes();
             
-            SelectWeightOptionFromRadioBoxes();
-            SavePointsAndWeightsValuesToArray();
-        
+            SelectWeightOptionFromRadioBoxes();       
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             Iteration = 0;
+            SavePointsAndWeightsValuesToArray();
             StopButton.IsEnabled = true;
             StartButton.IsEnabled = false;
 
@@ -80,19 +79,13 @@ namespace NeuralNetworkApp
             {
                 item.Visibility = Visibility.Hidden;
             }
-            foreach (pointValueUserControl item in dValuesWrapPanel.Children)
-            {
-                item.Visibility = Visibility.Hidden;
-            }
 
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
                 var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;//punkty
                 var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi
-                var tempList3 = dValuesWrapPanel.Children[i] as pointValueUserControl;//wartosci oczekiwane
                 tempList.Visibility = Visibility.Visible;
                 tempList2.Visibility = Visibility.Visible;
-                tempList3.Visibility = Visibility.Visible;
             }
         }
         private void ChangeChartsVisibility()
