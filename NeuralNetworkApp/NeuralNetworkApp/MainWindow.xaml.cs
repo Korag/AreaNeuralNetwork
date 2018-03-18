@@ -48,7 +48,8 @@ namespace NeuralNetworkApp
 
         private void numberOfPointsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ChangePointsAndWeightsVisibility();
+            ChangePointsWeightsAndDValuesVisibility();
+            ChangeChartsVisibility();
             SelectPointOptionFromRadioBoxes();
             
             SelectWeightOptionFromRadioBoxes();
@@ -70,20 +71,42 @@ namespace NeuralNetworkApp
             StopButton.IsEnabled = false;
         }
 
-        private void ChangePointsAndWeightsVisibility()
-        {
-            
+        private void ChangePointsWeightsAndDValuesVisibility()
+        {           
             foreach (pointValueUserControl item in pointsWrapPanel.Children)
             {
                item.Visibility = Visibility.Hidden;
+            }
+            foreach (pointValueUserControl item in weightsWrapPanel.Children)
+            {
+                item.Visibility = Visibility.Hidden;
+            }
+            foreach (DValueUserControl item in dValuesWrapPanel.Children)
+            {
+                item.Visibility = Visibility.Hidden;
             }
 
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
                 var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;//punkty
                 var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi
+                var tempList3 = dValuesWrapPanel.Children[i] as DValueUserControl;//wartosci oczekiwane
                 tempList.Visibility = Visibility.Visible;
                 tempList2.Visibility = Visibility.Visible;
+                tempList3.Visibility = Visibility.Visible;
+            }
+        }
+        private void ChangeChartsVisibility()
+        {
+            foreach (LiveChartUserControl item in ChartsStackPanel.Children)
+            {
+                item.Visibility = Visibility.Hidden;
+            }
+
+            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
+            {
+                var tempList = ChartsStackPanel.Children[i];
+                tempList.Visibility = Visibility.Visible;
             }
         }
 
