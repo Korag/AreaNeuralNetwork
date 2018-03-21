@@ -134,6 +134,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Folder Include="ModelView\" />
   </ItemGroup>
