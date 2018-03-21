@@ -24,8 +24,8 @@ namespace NeuralNetworkApp
     {
         DispatcherTimer timer = new DispatcherTimer();
         private List<int> NumberOfPointsList = new List<int>();
-        private List<int[]> PointsList;
-        private List<int[]> WeightsList;
+        public List<int[]> PointsList;
+        public List<int[]> WeightsList;
         private List<int> resultList;
         public int Iteration { get; set; }
         private void FillTheList()
@@ -241,7 +241,7 @@ namespace NeuralNetworkApp
         }
 
         private void MainCalculations()
-        {           
+        {
             int C = Convert.ToInt32(ConstCTextBox.Text);
             int SleepTimer = Convert.ToInt32(SleepTimerTextBox.Text);
             var CurrentPoint = PointsList[0];
@@ -318,7 +318,11 @@ namespace NeuralNetworkApp
 
                 }
             }
-          
+
+            LiveChartUserControl graph = new LiveChartUserControl();
+            graph.Draw(PointsList,WeightsList);
+
+
         }
 
         private void UpdateTextBox(int MainIteration)

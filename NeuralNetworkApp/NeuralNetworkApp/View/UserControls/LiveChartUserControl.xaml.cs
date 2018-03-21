@@ -22,9 +22,11 @@ namespace NeuralNetworkApp.View.UserControls
     /// </summary>
     public partial class LiveChartUserControl : UserControl
     {
+ 
         public LiveChartUserControl()
         {
             InitializeComponent();
+
             SeriesCollection = new SeriesCollection
             {
                 new LineSeries
@@ -63,6 +65,45 @@ namespace NeuralNetworkApp.View.UserControls
 
             //modifying any series values will also animate and update the chart
             SeriesCollection[3].Values.Add(5d);
+            DataContext = this;
+        }
+
+
+        public void Draw(List<int[]> PointsList, List<int[]> WeightsList)
+        {
+            InitializeComponent();
+
+            for (int i = 0; i < PointsList.Count; i++)
+            {
+                SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = $"P{i+1}",
+                    Values = new ChartValues<double>{ (double)(PointsList[i].GetValue(0))}
+                },
+            };
+                Labels = new[] { (string)(PointsList[i].GetValue(1)) };
+            }
+
+            for (int i = 0; i < WeightsList.Count; i++)
+            {
+                SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = $"W{i+1}",
+                    Values = new ChartValues<double>
+                     {
+
+                        // tutaj trzeba jakos ta prosta wyciagnac
+                         (double)(WeightsList[i].GetValue(0))
+
+                     }
+                 }
+            };
+                Labels = new[] { (string)(WeightsList[i].GetValue(1)) };
+            }
 
             DataContext = this;
         }
