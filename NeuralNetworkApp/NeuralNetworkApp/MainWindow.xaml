@@ -104,11 +104,11 @@
                        
             <!-- Messages from application -->
             <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Messages from application: " FontSize="20" Height="27" Margin="159,0" Width="247" />
-            <TextBox Name="ConsoleTextBox" Grid.ColumnSpan="2" Grid.Row="2" Margin="0,30,10,50" IsReadOnly="True"/>
+            <TextBox Name="ConsoleTextBox" Grid.ColumnSpan="2" Grid.Row="2" Margin="0,30,10,50" IsReadOnly="True" />
 
             <!-- Start and txt button -->
             <Button Content="Start" Name="StartButton" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="StartButton_Click"/>
-            <Button Content="TXT/PDF" Name="TxtButton" Grid.Column="1" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            <Button Content="Save Data" Name="SaveFileButton" Grid.Column="1" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="SaveFileButton_Click" IsEnabled="False"/>
 
             <!--Main chart-->
             <local:LiveChartUserControl x:Name="MainChart" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" />

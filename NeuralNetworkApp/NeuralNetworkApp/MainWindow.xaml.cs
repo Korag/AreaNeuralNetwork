@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Microsoft.Win32;
 using NeuralNetworkApp.View.UserControls;
 namespace NeuralNetworkApp
 {
@@ -178,7 +181,59 @@ namespace NeuralNetworkApp
         //to cos sluzy do wypelniania pol wartosciami ze zbioru(w tym przypadku z pliku txt)
         private void FillThePointsWithCollectionValues()
         {
-            MessageBox.Show("Read from file");
+            
+            //hmmm w sumie najlatwiejszy sposob na zrobienie glupi, latwy ale dziala, do zmiany w przyszlosci :P
+            string ValuesFromCollection =  SelectCollection();
+
+            Regex regex = new Regex(@"[^0-9]");
+            
+            string ValuesFromCollectionAfterFiltering = regex.Replace(ValuesFromCollection, " ");
+
+            string[] numbers = ValuesFromCollectionAfterFiltering.Split(null);
+            int ListCounter = 0;
+            List<string> numbersList = new List<string>();
+            foreach (string value in numbers)
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                   
+                    numbersList.Add(value);
+                }
+            }
+
+            
+            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
+            {
+                var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;
+
+                tempList.FirstValueText = numbersList[ListCounter];
+                ListCounter++;
+                tempList.SecondValueText = numbersList[ListCounter];
+                ListCounter++;
+                tempList.ThirdValueText = numbersList[ListCounter];
+                ListCounter++;
+            }
+
+        }
+
+        private string SelectCollection()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var result = openFileDialog.ShowDialog(); // Show the dialog.
+            string text = "";
+            if (result == true) // Test result.
+            {
+                string file = openFileDialog.FileName;
+                try
+                {
+                    text = File.ReadAllText(file);
+
+                }
+                catch (IOException)
+                {
+                }               
+            }
+            return text;
         }
 
         //to chyba jest do wyjebania chyba że jakieś sprawdzanie robimy?
@@ -312,31 +367,46 @@ namespace NeuralNetworkApp
             int C = Convert.ToInt32(ConstCTextBox.Text);
             int SleepTimer = Convert.ToInt32(SleepTimerTextBox.Text);
             var CurrentPoint = PointsList[0];
-
             //licznik P+1
             int StopChecker = 0;
-
-            //dwa warunki stopu
-            while ((Iteration < Convert.ToInt32(MaxIetrationsTextBox.Text)) && !CheckStopCondition(StopChecker))
-            {
-                
-                var IterationForCalculations = Iteration % Convert.ToInt32(numberOfPointsComboBox.SelectedItem);
-
-                UpdateTextBox(Iteration);//wyświetlanie wiadomości na konsoli
-
-                CurrentPoint = PointsList[IterationForCalculations];//wybór aktualnego punktu
-
-                SgnFunction(CurrentPoint, WeightsList);//funkcja aktywacji
-
-                ChangeWeightIfNeeded(IterationForCalculations, ref StopChecker);//zmiana wag
-                
-                Iteration++;
-                CurrentIterationTextBlock.Text = Iteration.ToString();
-
-                // Thread.Sleep(SleepTimer * 1000);               
-            }
+            
+                //dwa warunki stopu
+                while ((Iteration < Convert.ToInt32(MaxIetrationsTextBox.Text)) && !CheckStopCondition(StopChecker))
+                {                        
+                    CalculationsInsideTheLoop(ref StopChecker, CurrentPoint);
+                    CurrentIterationTextBlock.Text = Iteration.ToString();
+                    CurrentIterationTextBlock.UpdateLayout();
+                }  
+            
             StartButton.IsEnabled = true;
+            SaveFileButton.IsEnabled = true;
+        }
+            
                       
+        
+
+
+        private void CalculationsInsideTheLoop(ref int StopChecker, int[] CurrentPoint)
+        {
+            var IterationForCalculations = Iteration % Convert.ToInt32(numberOfPointsComboBox.SelectedItem);
+
+            UpdateTextBox(Iteration, StopChecker);//wyświetlanie wiadomości na konsoli
+
+            CurrentPoint = PointsList[IterationForCalculations];//wybór aktualnego punktu
+
+            SgnFunction(CurrentPoint, WeightsList);//funkcja aktywacji
+
+            ChangeWeightIfNeeded(IterationForCalculations, ref StopChecker);//zmiana wag
+
+            Iteration++;
+            
+
+            // Thread.Sleep(SleepTimer * 1000);   
+        }
+
+        private void ChangeIterationTextBox(object sender, EventArgs e)
+        {
+            
         }
 
         //funkcja aktywacji sgn mnozenie macierzy a dokladniej ich skladowych na podstawie sumy program decyduje czy wartość funkcji sgn jest 1 czy -1
@@ -422,9 +492,11 @@ namespace NeuralNetworkApp
         }
 
         //wypisywanie danych w oknie "messages from application" po każdej iteracji
-        private void UpdateTextBox(int MainIteration)
-        { 
-            ConsoleTextBox.Text += "Iteration: " + (MainIteration + 1) + "\n\r";
+        private void UpdateTextBox(int MainIteration, int CheckColor)
+        {
+        
+
+            ConsoleTextBox.Text += "Iteration: " + (MainIteration + 1) + "\r\n";
             string pointsString = "";
             for (int i = 0; i < PointsList.Count; i++)
             {
@@ -434,13 +506,13 @@ namespace NeuralNetworkApp
                 {
                     pointsString += item+" ";
                 }
-                ConsoleTextBox.Text += "P" + (i + 1) + " [ " + pointsString + "] ";
+                ConsoleTextBox.Text += "P" + (i + 1) + " = [ " + pointsString + "] \t";
                 pointsString = "";
                 foreach (var item in Weight)
                 {
                     pointsString += item + " ";
                 }
-                ConsoleTextBox.Text += "W" + (i + 1) + " [ " + pointsString + "] " + "\n\r";
+                ConsoleTextBox.Text += "W" + (i + 1) + " = [ " + pointsString + "] " + "\r\n\r\n";
                 pointsString = "";
             }
             
@@ -456,6 +528,28 @@ namespace NeuralNetworkApp
         {
             SelectPointOptionFromRadioBoxes();
         }
+
+        private void SaveFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text file (*.txt)|*.txt|C# file (*.cs)|*.cs";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, "");
+
+                string CurrentDate = "Date: " + DateTime.Now + "\r\n";
+                string School = "Akademia Techniczno-Humanistyczna w Bielsku-Białej \r\n";
+                string WorkingGroup = "Kamil Haręża, Łukasz Czepielik, Bartosz Wróbel, Konrad Korzonkiewicz \r\n\r\n";
+
+                File.AppendAllText(saveFileDialog.FileName, CurrentDate);
+                File.AppendAllText(saveFileDialog.FileName, School);
+                File.AppendAllText(saveFileDialog.FileName, WorkingGroup);
+                File.AppendAllText(saveFileDialog.FileName, ConsoleTextBox.Text);
+            }
+                
+        }
+
 
     }
 }
