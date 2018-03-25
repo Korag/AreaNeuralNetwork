@@ -25,11 +25,12 @@ namespace NeuralNetworkApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        LiveChartUserControl graph = new LiveChartUserControl();
         private List<int> NumberOfPointsList = new List<int>();
         private List<int> ValuesFromSgnFunctionList;
         private List<int[]> PointsList;
         private List<int[]> WeightsList;
-        
+        private List<int[]> DeltaList;//w przyszłości Delta będzie obliczania w osobnej metodzie
 
         public int Iteration { get; set; }
         //wpisanie do listy w xamlu elementow(wybor ilosci punktow)
@@ -180,28 +181,48 @@ namespace NeuralNetworkApp
 
         //to cos sluzy do wypelniania pol wartosciami ze zbioru(w tym przypadku z pliku txt)
         private void FillThePointsWithCollectionValues()
-        {
-            
+        {            
             //hmmm w sumie najlatwiejszy sposob na zrobienie glupi, latwy ale dziala, do zmiany w przyszlosci :P
             string ValuesFromCollection =  SelectCollection();
 
-            Regex regex = new Regex(@"[^0-9]");
-            
-            string ValuesFromCollectionAfterFiltering = regex.Replace(ValuesFromCollection, " ");
-
-            string[] numbers = ValuesFromCollectionAfterFiltering.Split(null);
-            int ListCounter = 0;
-            List<string> numbersList = new List<string>();
-            foreach (string value in numbers)
+            if (ValuesFromCollection != null)
             {
-                if (!string.IsNullOrEmpty(value))
+                List<string> numbersList = TakeNumbersFromString(ValuesFromCollection);
+                FillUserControls(numbersList);
+            }
+            else
+            {
+                PointRadioButtons.radioRandom.IsChecked = true;
+                
+            }
+        }
+
+      
+        #region PointCollectionFillMethods
+        private string SelectCollection()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var result = openFileDialog.ShowDialog(); // Show the dialog.
+            string text = null;
+            if (result == true) // Test result.
+            {
+                string file = openFileDialog.FileName;
+                try
                 {
-                   
-                    numbersList.Add(value);
+                    text = File.ReadAllText(file);
+
+                }
+                catch (IOException)
+                {
                 }
             }
+            return text;
+        }
 
-            
+
+        private void FillUserControls(List<string> numbersList)
+        {
+            int ListCounter = 0;
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
                 var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;
@@ -213,28 +234,30 @@ namespace NeuralNetworkApp
                 tempList.ThirdValueText = numbersList[ListCounter];
                 ListCounter++;
             }
-
         }
 
-        private string SelectCollection()
+        private static List<string> TakeNumbersFromString(string ValuesFromCollection)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            var result = openFileDialog.ShowDialog(); // Show the dialog.
-            string text = "";
-            if (result == true) // Test result.
-            {
-                string file = openFileDialog.FileName;
-                try
-                {
-                    text = File.ReadAllText(file);
+            Regex regex = new Regex(@"[^-,0-9]");
 
-                }
-                catch (IOException)
+            string ValuesFromCollectionAfterFiltering = regex.Replace(ValuesFromCollection, " ");
+
+            string[] numbers = ValuesFromCollectionAfterFiltering.Split(null);
+
+            List<string> numbersList = new List<string>();
+
+            foreach (string value in numbers)
+            {
+                if (!string.IsNullOrEmpty(value))
                 {
-                }               
+                    numbersList.Add(value);
+                }
             }
-            return text;
+
+            return numbersList;
         }
+        #endregion
+
 
         //to chyba jest do wyjebania chyba że jakieś sprawdzanie robimy?
         //no chyba nie, to będzie robiło że pola są puste i sam masz sobie wpisać ale znajac mentalnosc polaka to nie bedzie mu się chciało wiec i tak tego nie uzyje
@@ -245,10 +268,10 @@ namespace NeuralNetworkApp
                 var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;
                 tempList.FirstValueText = "";
                 tempList.SecondValueText = "";
-                tempList.ThirdValueText = "";
             }
         }
         #endregion
+
         //NIE ROZWIJAC!!!
         #region WeightSelection
             //nie chce mi sie znowu tego samego pisać, wszystko to samo co w punktach tylko zrobione pod wagi
@@ -286,6 +309,7 @@ namespace NeuralNetworkApp
                 tempList.SecondValueText = randWeight.Next(-5, 5).ToString();
             }
         }
+
         private void FillTheWeightsWithBookValues()
         {
             if (Convert.ToInt32(numberOfPointsComboBox.SelectedItem) != 3)
@@ -310,10 +334,62 @@ namespace NeuralNetworkApp
             ThirdPoint.SecondValueText = "3";
             ThirdPoint.ThirdValueText = "-1";
         }
+
         private void FillTheWeightsWithCollectionValues()
         {
-            MessageBox.Show("Read from file");
+            string ValuesFromCollection = SelectWeightCollection();
+
+            if (ValuesFromCollection != null)
+            {
+                List<string> numbersList = TakeNumbersFromString(ValuesFromCollection);
+                FillWeightControls(numbersList);
+            }
+            else
+            {
+                WeightRadioButtons.radioRandom.IsChecked = true;
+            }
         }
+
+        #region WeightCollectionFillMethods
+        private string SelectWeightCollection()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var result = openFileDialog.ShowDialog(); // Show the dialog.
+            string text = null;
+            if (result == true) // Test result.
+            {
+                string file = openFileDialog.FileName;
+                try
+                {
+                    text = File.ReadAllText(file);
+
+                }
+                catch (IOException)
+                {
+                }
+            }
+            return text;
+        }
+
+
+        private void FillWeightControls(List<string> numbersList)
+        {
+            int ListCounter = 0;
+            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
+            {
+                var tempList = weightsWrapPanel.Children[i] as pointValueUserControl;
+
+                tempList.FirstValueText = numbersList[ListCounter];
+                ListCounter++;
+                tempList.SecondValueText = numbersList[ListCounter];
+                ListCounter++;
+                tempList.ThirdValueText = numbersList[ListCounter];
+                ListCounter++;
+            }
+        }
+
+        #endregion
+
         private void FillTheWeightsWithKeyboardValues()
         {
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
@@ -321,7 +397,6 @@ namespace NeuralNetworkApp
                 var tempList = weightsWrapPanel.Children[i] as pointValueUserControl;
                 tempList.FirstValueText = "";
                 tempList.SecondValueText = "";
-                tempList.ThirdValueText = "";
             }
             
         }
@@ -334,18 +409,21 @@ namespace NeuralNetworkApp
             //(do przemyslenia czy nie dac tego do osobnej funkcji i stworzyc np przycisk reset ktory usunalem xd)
             PointsList = new List<int[]>();
             WeightsList = new List<int[]>();
-            
+            DeltaList = new List<int[]>();
+
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
                 //tablice tymczasowe do ktorych wpisywane sa wartosci
                 int[] tempPointArray = new int[3];
                 int[] tempWeightArray = new int[3];
+                int[] tempDeltaArray = new int[3] { 0,0,0};
+
                 var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;//punkty pobrane z WrpaPanela
                 var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi pobrane z WrpaPanela
 
                 //pobranie i konwersja wartosci z pol oraz zapisanie ich do tablic tymczasowych
                 //w sumie na chwile obecna nie mam lepszego pomyslu a to dziala wiec.. do przemyslenia
-                tempPointArray[0] = Convert.ToInt32(tempList.pointValueTextBox1.Text);
+                    tempPointArray[0] = Convert.ToInt32(tempList.pointValueTextBox1.Text);
                     tempPointArray[1] = Convert.ToInt32(tempList.pointValueTextBox2.Text);
                     tempPointArray[2] = Convert.ToInt32(tempList.pointValueTextBox3.Text);
 
@@ -353,9 +431,11 @@ namespace NeuralNetworkApp
                     tempWeightArray[1] = Convert.ToInt32(tempList2.pointValueTextBox2.Text);
                     tempWeightArray[2] = Convert.ToInt32(tempList2.pointValueTextBox3.Text);
 
+
                 //przeniesienie tablic tymczasowych do list(jedna tablica tymczasowa to jeden punkt/waga)
                 PointsList.Add(tempPointArray);
                 WeightsList.Add(tempWeightArray);
+                DeltaList.Add(tempDeltaArray);
             }
 
         }
@@ -372,20 +452,25 @@ namespace NeuralNetworkApp
             
                 //dwa warunki stopu
                 while ((Iteration < Convert.ToInt32(MaxIetrationsTextBox.Text)) && !CheckStopCondition(StopChecker))
-                {                        
+                {
+                    SaveHistoryOfWeightsValues();
                     CalculationsInsideTheLoop(ref StopChecker, CurrentPoint);
+                    
+                    Iteration++;
                     CurrentIterationTextBlock.Text = Iteration.ToString();
-                    CurrentIterationTextBlock.UpdateLayout();
-                }  
+                    
+                }
+            if (Convert.ToInt32(numberOfPointsComboBox.SelectedItem) == 3)
+            {
+                MainChart.FillYValues(WeightsList[0], WeightsList[1], WeightsList[2]);
+                MainChart.MakeMainGraph();
+            }
             
+            DrawWeightGraphs();
             StartButton.IsEnabled = true;
             SaveFileButton.IsEnabled = true;
         }
-            
-                      
-        
-
-
+                                         
         private void CalculationsInsideTheLoop(ref int StopChecker, int[] CurrentPoint)
         {
             var IterationForCalculations = Iteration % Convert.ToInt32(numberOfPointsComboBox.SelectedItem);
@@ -398,16 +483,10 @@ namespace NeuralNetworkApp
 
             ChangeWeightIfNeeded(IterationForCalculations, ref StopChecker);//zmiana wag
 
-            Iteration++;
             
-
             // Thread.Sleep(SleepTimer * 1000);   
         }
 
-        private void ChangeIterationTextBox(object sender, EventArgs e)
-        {
-            
-        }
 
         //funkcja aktywacji sgn mnozenie macierzy a dokladniej ich skladowych na podstawie sumy program decyduje czy wartość funkcji sgn jest 1 czy -1
         private List<int> SgnFunction(int[] Point, List<int[]> WeightsList)//jeden punkt przemnożony przez każdą wagę
@@ -460,23 +539,29 @@ namespace NeuralNetworkApp
              * w razie niezgodnosci nastepuje zmiana wag wedlug podanego w zadaniu wzoru*/
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
+                
                 if (ValuesFromSgnFunctionList[i] != tempDValueList[i])
                 {
                     PValue = 0;
                     var Weight = WeightsList[i];//pobranie jednej wagi z listy wszystkich wag
                     var Point = PointsList[MainIteration];//pobranie jednego punktu z listy wszystkich punktow
+                    var Delta = DeltaList[i];
                     for (int j = 0; j < Weight.Length; j++)
                     {
                         //każda składowa wagi jest obsługiwana osobno
-                        Weight[j] =(int)(Weight[j] + (1.0/2.0) * Convert.ToInt32(ConstCTextBox.Text) * (tempDValueList[i] - ValuesFromSgnFunctionList[i]) * Point[j]);
+                        Delta[j] = (int)((1.0 / 2.0) * Convert.ToInt32(ConstCTextBox.Text) * (tempDValueList[i] - ValuesFromSgnFunctionList[i]) * Point[j]);
+                        Weight[j] = Weight[j] + Delta[j];
                     }
                     WeightsList[i] = Weight;//zamiana wagi
-
+                    DeltaList[i] = Delta;
+                }
+                else
+                {
+                    DeltaList[i] = new int[3] { 0,0,0};
                 }
             }
             PValue++;
-            //LiveChartUserControl graph = new LiveChartUserControl();
-            //graph.Draw(PointsList,WeightsList);
+            
         }
         //warunek stopu jest +2 a nie +1 zeby petla jeszcze jeden raz sie wykonala
         private bool CheckStopCondition(int PValue)
@@ -502,17 +587,24 @@ namespace NeuralNetworkApp
             {
                 var Point = PointsList[i];
                 var Weight = WeightsList[i];
+                var Delta = DeltaList[i];
                 foreach (var item in Point)
                 {
                     pointsString += item+" ";
                 }
-                ConsoleTextBox.Text += "P" + (i + 1) + " = [ " + pointsString + "] \t";
+                ConsoleTextBox.Text += "Point " + (i + 1) + " = [ " + pointsString + "] \t";
                 pointsString = "";
                 foreach (var item in Weight)
                 {
                     pointsString += item + " ";
                 }
-                ConsoleTextBox.Text += "W" + (i + 1) + " = [ " + pointsString + "] " + "\r\n\r\n";
+                ConsoleTextBox.Text += "Weight " + (i + 1) + " = [ " + pointsString + "] \t";
+                pointsString = "";
+                foreach (var item in Delta)
+                {
+                    pointsString += item + " ";
+                }
+                ConsoleTextBox.Text += "\u0394" + (i + 1) + " = " + pointsString + "\r\n\r\n";
                 pointsString = "";
             }
             
@@ -550,6 +642,27 @@ namespace NeuralNetworkApp
                 
         }
 
+        private void DrawWeightGraphs()
+        {
+            var Weights = ChartsStackPanel.Children;
 
+            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
+            {
+                var Weight = Weights[i] as LiveChartUserControl;
+                Weight.MakeGraph();
+
+            }
+        }
+        private void SaveHistoryOfWeightsValues()
+        {
+            var Weights = ChartsStackPanel.Children;
+
+            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
+            {
+                var Weight = Weights[i] as LiveChartUserControl;
+                Weight.AddToHistory(WeightsList[i], Iteration);
+
+            }
+        }
     }
 }

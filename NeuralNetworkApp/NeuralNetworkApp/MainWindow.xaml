@@ -116,12 +116,12 @@
             <!-- Weights charts -->
             <ScrollViewer Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2">
                 <StackPanel Name="ChartsStackPanel">
-                    <my:LiveChartUserControl Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl Height="200" Visibility="Hidden" />
+                    <my:LiveChartUserControl x:Name="FirstWeightChart" Height="200" Visibility="Hidden" />
+                    <my:LiveChartUserControl x:Name="SecondWeightChart" Height="200" Visibility="Hidden" />
+                    <my:LiveChartUserControl x:Name="ThirdWeightChart" Height="200" Visibility="Hidden" />
+                    <my:LiveChartUserControl x:Name="FourthWeightChart" Height="200" Visibility="Hidden" />
+                    <my:LiveChartUserControl x:Name="FifthWeightChart" Height="200" Visibility="Hidden" />
+                    <my:LiveChartUserControl x:Name="SixthWeightChart" Height="200" Visibility="Hidden" />
                 </StackPanel>
             </ScrollViewer>
             
