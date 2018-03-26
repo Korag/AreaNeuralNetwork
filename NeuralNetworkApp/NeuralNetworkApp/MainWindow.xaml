@@ -112,7 +112,7 @@
             <Button Content="RESET" x:Name="ResetButton" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetButton_Click" Grid.ColumnSpan="2"/>
            
             <!--Main chart-->
-            <local:LiveChartUserControl x:Name="MainChart" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" ChartTitle="Main Chart"/>
+            <local:MainChartUserControl x:Name="MainChart" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" MainChartTitle="Main Chart"/>
 
             <!-- Weights charts -->
             <ScrollViewer Name="ChartsScrollViewer" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Visibility="Hidden">

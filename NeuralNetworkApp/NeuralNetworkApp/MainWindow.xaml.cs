@@ -462,9 +462,10 @@ namespace NeuralNetworkApp
                 }
             if (Convert.ToInt32(numberOfPointsComboBox.SelectedItem) == 3)
             {
+                
                 MainChart.Visibility = Visibility.Visible;
                 MainChart.FillYValues(WeightsList[0], WeightsList[1], WeightsList[2]);
-                MainChart.MakeMainGraph();
+                MainChart.DrawMainChart();
             }
             ChartsScrollViewer.Visibility = Visibility.Visible;
             DrawWeightGraphs();
@@ -650,7 +651,7 @@ namespace NeuralNetworkApp
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
                 var Weight = Weights[i] as LiveChartUserControl;
-                Weight.MakeGraph();
+                Weight.MakeChart();
 
             }
         }
@@ -662,7 +663,6 @@ namespace NeuralNetworkApp
             {
                 var Weight = Weights[i] as LiveChartUserControl;
                 Weight.AddToHistory(WeightsList[i], Iteration);
-
             }
         }
 

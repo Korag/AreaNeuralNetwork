@@ -65,11 +65,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="View\UserControls\DValueUserControl.xaml.cs">
-      <DependentUpon>DValueUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\UserControls\LiveChartUserControl.xaml.cs">
       <DependentUpon>LiveChartUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\MainChartUserControl.xaml.cs">
+      <DependentUpon>MainChartUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\pointValueUserControl.xaml.cs">
       <DependentUpon>pointValueUserControl.xaml</DependentUpon>
@@ -89,11 +89,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\UserControls\DValueUserControl.xaml">
+    <Page Include="View\UserControls\LiveChartUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UserControls\LiveChartUserControl.xaml">
+    <Page Include="View\UserControls\MainChartUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

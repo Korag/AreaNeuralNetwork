@@ -29,97 +29,22 @@ namespace NeuralNetworkApp.View.UserControls
         private List<double> SecondWeightList = new List<double>();
         private List<double> ThirdWeightList = new List<double>();
         private List<string> IterationsList = new List<string>();
-        //to jest dla glownego wykresu
-        private List<double> YValuesForFirstFunction = new List<double>();
-        private List<double> YValuesForSecondFunction = new List<double>();
-        private List<double> YValuesForThirdFunction = new List<double>();
-        private List<double> XValues = new List<double>();
 
-        public static readonly DependencyProperty TextProperty =
+
+        public static readonly DependencyProperty ChartName =
         DependencyProperty.Register("ChartTitle", typeof(String),
         typeof(LiveChartUserControl), new FrameworkPropertyMetadata(string.Empty));
         public String ChartTitle
         {
-            get { return GetValue(TextProperty).ToString(); }
-            set { SetValue(TextProperty, value); }
+            get { return GetValue(ChartName).ToString(); }
+            set { SetValue(ChartName, value); }
 
         }
 
-        private void FillXValues()
-        {
-            for (double i = -1; i < 1; i+=0.1)
-            {                
-                XValues.Add(i);
-            }
-        }
-
-        public void FillYValues(int[] Weight1, int[] Weight2, int[] Weight3)
-        {
-            for (int i = 0; i < XValues.Count; i++)
-            {
-                double YValue1 = -(Weight1[0] * XValues[i] - Weight1[2])/(Weight1[1]);
-
-                YValuesForFirstFunction.Add(YValue1);
-
-                double YValue2 = -(Weight2[0] * XValues[i] - Weight2[2])/(Weight2[1]);
-
-                YValuesForSecondFunction.Add(YValue2);
-
-                double YValue3 = -(Weight3[0] * XValues[i] - Weight3[2])/(Weight3[1]);
-
-                YValuesForThirdFunction.Add(YValue3);
-            }
-        }
-
-        private SeriesCollection DrawMainChart()
-        {
-
-            SeriesCollection seriesCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Weight1",
-                    Values = YValuesForFirstFunction.AsChartValues(),
-                    Stroke = Brushes.Green
-                },
-                new LineSeries
-                {
-                    Title = "Weight2",
-                    Values = YValuesForSecondFunction.AsChartValues(),
-                },
-                new LineSeries
-                {
-                    Title = "Weight3",
-                    Values = YValuesForThirdFunction.AsChartValues(),
-                }
-            };
-
-            return seriesCollection;
-        }
-
-        public void MakeMainGraph()
-        {
-            SeriesCollection = DrawMainChart();
-
-            Labels = ConvertFromDoubleToString();
-            DataContext = this;
-        }
-
-        private string[] ConvertFromDoubleToString()
-        {
-            string[] TempArray = new string[XValues.Count];
-
-            for (int i = 0; i < XValues.Count; i++)
-            {
-                TempArray[i] = XValues[i].ToString();
-            }
-            return TempArray;
-        }
-
+        
         public LiveChartUserControl()
         {
             InitializeComponent();
-            FillXValues();
             YFormatter = value => value.ToString();
             
             //modifying the series collection will animate and update the chart
@@ -137,15 +62,17 @@ namespace NeuralNetworkApp.View.UserControls
             IterationsList.Add((Iteration+1).ToString());
         }
 
-        public void MakeGraph()
+        public void MakeChart()
         {
-            SeriesCollection = DrawTest();
+            SeriesCollection = MakeChartSeries();
             
             Labels = IterationsList.ToArray();
             DataContext = this;
         }
 
-        private SeriesCollection DrawTest()
+
+
+        private SeriesCollection MakeChartSeries()
         {
 
             SeriesCollection seriesCollection = new SeriesCollection
@@ -165,9 +92,10 @@ namespace NeuralNetworkApp.View.UserControls
                 {
                     Title = "W3",
                     Values = ThirdWeightList.AsChartValues(),
+                    
                 }
             };
-
+            
             return seriesCollection;
         }
 
