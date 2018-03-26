@@ -1,4 +1,5 @@
 ﻿using LiveCharts;
+using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
@@ -22,50 +23,144 @@ namespace NeuralNetworkApp.View.UserControls
     /// </summary>
     public partial class LiveChartUserControl : UserControl
     {
-        public LiveChartUserControl()
+        //to jest dla wag
+        private List<double> FirstWeightList = new List<double>();
+        private List<double> SecondWeightList = new List<double>();
+        private List<double> ThirdWeightList = new List<double>();
+        private List<string> IterationsList = new List<string>();
+        //to jest dla glownego wykresu
+        private List<int> YValuesForFirstFunction = new List<int>();
+        private List<int> YValuesForSecondFunction = new List<int>();
+        private List<int> YValuesForThirdFunction = new List<int>();
+        private List<int> XValues = new List<int>();
+
+        private void FillXValues()
         {
-            InitializeComponent();
-            SeriesCollection = new SeriesCollection
+            for (int i = -10; i < 10; i++)
+            {
+                XValues.Add(i);
+            }
+        }
+
+        public void FillYValues(int[] Weight1, int[] Weight2, int[] Weight3)
+        {
+            for (int i = 0; i < XValues.Count; i++)
+            {
+                int YValue1 = Weight1[0] * XValues[i] + Weight1[1] * XValues[i] + Weight1[2];
+
+                YValuesForFirstFunction.Add(YValue1);
+
+                int YValue2 = Weight2[0] * XValues[i] + Weight2[1] * XValues[i] + Weight2[2];
+
+                YValuesForSecondFunction.Add(YValue2);
+
+                int YValue3 = Weight3[0] * XValues[i] + Weight3[1] * XValues[i] + Weight3[2];
+
+                YValuesForThirdFunction.Add(YValue3);
+            }
+        }
+
+        private SeriesCollection DrawMainChart()
+        {
+
+            SeriesCollection seriesCollection = new SeriesCollection
             {
                 new LineSeries
                 {
-                    Title = "Series 1",
-                    Values = new ChartValues<double> { 4, 6, 5, 2 ,4 }
+                    Title = "Weight1",
+                    Values = YValuesForFirstFunction.AsChartValues()
+
                 },
                 new LineSeries
                 {
-                    Title = "Series 2",
-                    Values = new ChartValues<double> { 6, 7, 3, 4 ,6 },
-                    PointGeometry = null
+                    Title = "Weight2",
+                    Values = YValuesForSecondFunction.AsChartValues(),
                 },
                 new LineSeries
                 {
-                    Title = "Series 3",
-                    Values = new ChartValues<double> { 4,2,7,2,7 },
-                    PointGeometry = DefaultGeometries.Square,
-                    PointGeometrySize = 15
+                    Title = "Weight3",
+                    Values = YValuesForThirdFunction.AsChartValues(),
                 }
             };
 
-            Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
-            YFormatter = value => value.ToString("C");
+            return seriesCollection;
+        }
 
-            //modifying the series collection will animate and update the chart
-            SeriesCollection.Add(new LineSeries
-            {
-                Title = "Series 4",
-                Values = new ChartValues<double> { 5, 3, 2, 4 },
-                LineSmoothness = 0, //0: straight lines, 1: really smooth lines
-                PointGeometry = Geometry.Parse("m 25 70.36218 20 -28 -20 22 -8 -6 z"),
-                PointGeometrySize = 50,
-                PointForeground = Brushes.Gray
-            });
+        public void MakeMainGraph()
+        {
+            SeriesCollection = DrawMainChart();
 
-            //modifying any series values will also animate and update the chart
-            SeriesCollection[3].Values.Add(5d);
-
+            Labels = ConvertFromIntToString();
             DataContext = this;
         }
+
+        private string[] ConvertFromIntToString()
+        {
+            string[] TempArray = new string[XValues.Count];
+
+            for (int i = 0; i < XValues.Count; i++)
+            {
+                TempArray[i] = XValues[i].ToString();
+            }
+            return TempArray;
+        }
+
+        public LiveChartUserControl()
+        {
+            InitializeComponent();
+            FillXValues();
+            YFormatter = value => value.ToString();
+
+            //modifying the series collection will animate and update the chart
+
+
+            //modifying any series values will also animate and update the chart
+            
+        }
+
+        public void AddToHistory(int[] Weight, int Iteration)
+        {
+            FirstWeightList.Add(Weight[0]);
+            SecondWeightList.Add(Weight[1]);
+            ThirdWeightList.Add(Weight[2]);
+            IterationsList.Add((Iteration+1).ToString());
+        }
+
+        public void MakeGraph()
+        {
+            SeriesCollection = DrawTest();
+            
+            Labels = IterationsList.ToArray();
+            DataContext = this;
+        }
+
+        private SeriesCollection DrawTest()
+        {
+
+            SeriesCollection seriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Weight1",
+                    Values = FirstWeightList.AsChartValues()
+
+                },
+                new LineSeries
+                {
+                    Title = "Weight2",
+                    Values = SecondWeightList.AsChartValues(),
+                },
+                new LineSeries
+                {
+                    Title = "Weight3",
+                    Values = ThirdWeightList.AsChartValues(),
+                }
+            };
+
+            return seriesCollection;
+        }
+
+
 
         public SeriesCollection SeriesCollection { get; set; }
         public string[] Labels { get; set; }
