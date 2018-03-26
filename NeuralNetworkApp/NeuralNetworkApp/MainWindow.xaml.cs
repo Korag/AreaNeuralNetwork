@@ -88,6 +88,7 @@ namespace NeuralNetworkApp
                 tempList2.Visibility = Visibility.Visible;
             }
         }
+
         private void ChangeChartsVisibility()
         {
             foreach (LiveChartUserControl item in ChartsStackPanel.Children)
