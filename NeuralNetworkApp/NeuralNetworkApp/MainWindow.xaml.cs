@@ -462,10 +462,11 @@ namespace NeuralNetworkApp
                 }
             if (Convert.ToInt32(numberOfPointsComboBox.SelectedItem) == 3)
             {
+                MainChart.Visibility = Visibility.Visible;
                 MainChart.FillYValues(WeightsList[0], WeightsList[1], WeightsList[2]);
                 MainChart.MakeMainGraph();
             }
-            
+            ChartsScrollViewer.Visibility = Visibility.Visible;
             DrawWeightGraphs();
             StartButton.IsEnabled = true;
             SaveFileButton.IsEnabled = true;
@@ -663,6 +664,18 @@ namespace NeuralNetworkApp
                 Weight.AddToHistory(WeightsList[i], Iteration);
 
             }
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Application.Current.Shutdown();
+            //System.Windows.Forms.Application.Restart();
+
+            // Lepsiejsze
+            MainWindow window2 = new MainWindow();
+            window2.Show();
+
+            this.Close();
         }
     }
 }
