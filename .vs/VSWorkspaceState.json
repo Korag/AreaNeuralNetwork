@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\NeuralNetworkApp",
-    "\\NeuralNetworkApp\\NeuralNetworkApp"
+    "\\NeuralNetworkApp\\NeuralNetworkApp",
+    "\\NeuralNetworkApp\\NeuralNetworkApp\\View",
+    "\\NeuralNetworkApp\\NeuralNetworkApp\\View\\UserControls"
   ],
-  "SelectedNode": "\\NeuralNetworkApp\\NeuralNetworkApp",
   "PreviewInSolutionExplorer": false
 }
