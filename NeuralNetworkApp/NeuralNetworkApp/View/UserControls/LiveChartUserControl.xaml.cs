@@ -29,15 +29,17 @@ namespace NeuralNetworkApp.View.UserControls
         private List<double> ThirdWeightList = new List<double>();
         private List<string> IterationsList = new List<string>();
         //to jest dla glownego wykresu
-        private List<int> YValuesForFirstFunction = new List<int>();
-        private List<int> YValuesForSecondFunction = new List<int>();
-        private List<int> YValuesForThirdFunction = new List<int>();
-        private List<int> XValues = new List<int>();
+        private List<double> YValuesForFirstFunction = new List<double>();
+        private List<double> YValuesForSecondFunction = new List<double>();
+        private List<double> YValuesForThirdFunction = new List<double>();
+        private List<double> XValues = new List<double>();
+        
+
 
         private void FillXValues()
         {
-            for (int i = -10; i < 10; i++)
-            {
+            for (double i = -1; i < 1; i+=0.1)
+            {                
                 XValues.Add(i);
             }
         }
@@ -46,15 +48,15 @@ namespace NeuralNetworkApp.View.UserControls
         {
             for (int i = 0; i < XValues.Count; i++)
             {
-                int YValue1 = Weight1[0] * XValues[i] + Weight1[1] * XValues[i] + Weight1[2];
+                double YValue1 = -(Weight1[0] * XValues[i] - Weight1[2])/(Weight1[1]);
 
                 YValuesForFirstFunction.Add(YValue1);
 
-                int YValue2 = Weight2[0] * XValues[i] + Weight2[1] * XValues[i] + Weight2[2];
+                double YValue2 = -(Weight2[0] * XValues[i] - Weight2[2])/(Weight2[1]);
 
                 YValuesForSecondFunction.Add(YValue2);
 
-                int YValue3 = Weight3[0] * XValues[i] + Weight3[1] * XValues[i] + Weight3[2];
+                double YValue3 = -(Weight3[0] * XValues[i] - Weight3[2])/(Weight3[1]);
 
                 YValuesForThirdFunction.Add(YValue3);
             }
@@ -90,11 +92,11 @@ namespace NeuralNetworkApp.View.UserControls
         {
             SeriesCollection = DrawMainChart();
 
-            Labels = ConvertFromIntToString();
+            Labels = ConvertFromDoubleToString();
             DataContext = this;
         }
 
-        private string[] ConvertFromIntToString()
+        private string[] ConvertFromDoubleToString()
         {
             string[] TempArray = new string[XValues.Count];
 
