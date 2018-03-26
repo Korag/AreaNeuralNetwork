@@ -9,7 +9,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Icon="Images\favicon.png"
-        Title="MainWindow" Height="850" Width="1500" MinHeight="700" MinWidth="1300">
+        WindowState="Maximized" Title="MainWindow" Height="850" Width="1500" MinHeight="700" MinWidth="1300">
     <Border Padding="10">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -97,7 +97,7 @@
                 <StackPanel>
                     <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>
                     <TextBox  Name="ConstCTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0"/>
-                    <TextBox  Name="MaxIetrationsTextBox" Text="20" Width="30" Height="25" Margin="0,30,0,0"/>
+                    <TextBox  Name="MaxIetrationsTextBox" Text="100" Width="30" Height="25" Margin="0,30,0,0"/>
                     <TextBox  Name="SleepTimerTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0"/>
                 </StackPanel>
             </StackPanel>
@@ -112,17 +112,17 @@
             <Button Content="RESET" x:Name="ResetButton" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetButton_Click" Grid.ColumnSpan="2"/>
            
             <!--Main chart-->
-            <local:LiveChartUserControl x:Name="MainChart" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden"/>
+            <local:LiveChartUserControl x:Name="MainChart" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" ChartTitle="Main Chart"/>
 
             <!-- Weights charts -->
             <ScrollViewer Name="ChartsScrollViewer" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Visibility="Hidden">
                 <StackPanel Name="ChartsStackPanel">
-                    <my:LiveChartUserControl x:Name="FirstWeightChart" Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl x:Name="SecondWeightChart" Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl x:Name="ThirdWeightChart" Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl x:Name="FourthWeightChart" Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl x:Name="FifthWeightChart" Height="200" Visibility="Hidden" />
-                    <my:LiveChartUserControl x:Name="SixthWeightChart" Height="200" Visibility="Hidden" />
+                    <my:LiveChartUserControl x:Name="FirstWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 1" />
+                    <my:LiveChartUserControl x:Name="SecondWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 2" />
+                    <my:LiveChartUserControl x:Name="ThirdWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 3" />
+                    <my:LiveChartUserControl x:Name="FourthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 4" />
+                    <my:LiveChartUserControl x:Name="FifthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 5" />
+                    <my:LiveChartUserControl x:Name="SixthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 6" />
                 </StackPanel>
             </ScrollViewer>
             

@@ -8,7 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" >
+        <TextBlock Text="{Binding ChartTitle}" HorizontalAlignment="Center" VerticalAlignment="Top"  Margin="0,0,30,0"/>
+        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right"  Margin="0,20,0,0">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Weight Values" LabelFormatter="{Binding YFormatter}" Foreground="Black" ></lvc:Axis>
             </lvc:CartesianChart.AxisY>

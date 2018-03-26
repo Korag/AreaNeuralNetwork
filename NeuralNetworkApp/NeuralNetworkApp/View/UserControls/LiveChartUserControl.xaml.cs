@@ -1,6 +1,7 @@
 ﻿using LiveCharts;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
+using LiveCharts.Wpf.Charts.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,8 +34,16 @@ namespace NeuralNetworkApp.View.UserControls
         private List<double> YValuesForSecondFunction = new List<double>();
         private List<double> YValuesForThirdFunction = new List<double>();
         private List<double> XValues = new List<double>();
-        
 
+        public static readonly DependencyProperty TextProperty =
+        DependencyProperty.Register("ChartTitle", typeof(String),
+        typeof(LiveChartUserControl), new FrameworkPropertyMetadata(string.Empty));
+        public String ChartTitle
+        {
+            get { return GetValue(TextProperty).ToString(); }
+            set { SetValue(TextProperty, value); }
+
+        }
 
         private void FillXValues()
         {
@@ -70,8 +79,8 @@ namespace NeuralNetworkApp.View.UserControls
                 new LineSeries
                 {
                     Title = "Weight1",
-                    Values = YValuesForFirstFunction.AsChartValues()
-
+                    Values = YValuesForFirstFunction.AsChartValues(),
+                    Stroke = Brushes.Green
                 },
                 new LineSeries
                 {
@@ -112,7 +121,7 @@ namespace NeuralNetworkApp.View.UserControls
             InitializeComponent();
             FillXValues();
             YFormatter = value => value.ToString();
-
+            
             //modifying the series collection will animate and update the chart
 
 
@@ -143,18 +152,18 @@ namespace NeuralNetworkApp.View.UserControls
             {
                 new LineSeries
                 {
-                    Title = "Weight1",
-                    Values = FirstWeightList.AsChartValues()
-
+                    Title = "W1",
+                    Values = FirstWeightList.AsChartValues(),
+                    Stroke = Brushes.Green,
                 },
                 new LineSeries
                 {
-                    Title = "Weight2",
+                    Title = "W2",
                     Values = SecondWeightList.AsChartValues(),
                 },
                 new LineSeries
                 {
-                    Title = "Weight3",
+                    Title = "W3",
                     Values = ThirdWeightList.AsChartValues(),
                 }
             };

@@ -674,8 +674,9 @@ namespace NeuralNetworkApp
             // Lepsiejsze
             MainWindow window2 = new MainWindow();
             window2.Show();
-
+            
             this.Close();
+            
         }
     }
 }
