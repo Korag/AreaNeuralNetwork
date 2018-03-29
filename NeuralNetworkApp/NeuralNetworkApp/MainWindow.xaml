@@ -9,7 +9,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Icon="Images\favicon.png"
-        WindowState="Maximized" Title="MainWindow" Height="850" Width="1500" MinHeight="700" MinWidth="1300">
+        WindowState="Maximized" Title="MainWindow" Height="850" Width="1500">
     <Border Padding="10">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -39,23 +39,26 @@
             </Grid.ColumnDefinitions>
            
             <!-- Iteration text -->
+
             <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" >
                 <TextBlock  Text="Iteration:" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" />
                 <TextBlock Name="CurrentIterationTextBlock" Text="{Binding Iteration}" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"/>
             </StackPanel>
+            <!-- WEIGHTS-->
+            <Viewbox Margin="20" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+                <StackPanel>
+                    <TextBlock Text="Weights: " HorizontalAlignment="Center" FontSize="20" />
+                    <local:RadioButtonsUserControl Grid.Column="0" x:Name="WeightRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="WeightRadioButtons_Checked1" Margin="0,0,-40,0" Width="148"/>
+                </StackPanel>
+            </Viewbox>
             
-            <!-- POINTS -->
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="155" Margin="88,0" Width="108">
-                <TextBlock Text="Weights: " HorizontalAlignment="Center" FontSize="20" />
-                <local:RadioButtonsUserControl Grid.Column="0" x:Name="WeightRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="WeightRadioButtons_Checked1" Margin="0,0,-40,0" Width="148"/>
-            </StackPanel>
-            
-            <!--WEIGHTS -->
-            <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="155" Margin="86,0,87,0" Width="108">
-                <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20" />
-                <local:RadioButtonsUserControl Grid.Column="0" x:Name="PointRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="PointRadioButtons_Checked1" Margin="0,0,-26,0" Width="134"/>
-            </StackPanel>
-
+            <!--POINTS -->
+            <Viewbox Margin="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+                <StackPanel >
+                    <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20" />
+                    <local:RadioButtonsUserControl Grid.Column="0" x:Name="PointRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="PointRadioButtons_Checked1" Margin="0,0,-26,0" Width="134"/>
+                </StackPanel>
+            </Viewbox>
             <!-- Points and weights values -->
             <DockPanel  Grid.Row="1">
                 <TabControl>
@@ -87,25 +90,28 @@
             </DockPanel>
 
             <!-- Number of points, c value, max iterations, sleep timer -->
-            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="28,0,27,0" Width="226">
-                <StackPanel  Margin="10,0,0,0">
-                    <TextBlock Height="25" Text="Number of points = " HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
-                    <TextBlock Height="25" Text="C = " HorizontalAlignment="Left" Margin="0,30,0,0" FontSize="20"/>
-                    <TextBlock Height="25" Text="Max iterations = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
-                    <TextBlock Height="25" Text="Sleep Timer = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
+            <Viewbox Margin="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel  Margin="10,0,0,0">
+                        <TextBlock Height="25" Text="Number of points = " HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                        <TextBlock Height="25" Text="C = " HorizontalAlignment="Left" Margin="0,30,0,0" FontSize="20"/>
+                        <TextBlock Height="25" Text="Max iterations = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
+                        <TextBlock Height="25" Text="Sleep Timer = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>
+                        <TextBox  Name="ConstCTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" TextChanged="ConstCTextBox_TextChanged"/>
+                        <TextBox  Name="MaxIterationsTextBox" Text="100" Width="30" Height="25" Margin="0,30,0,0" TextChanged="MaxIterationsTextBox_TextChanged"/>
+                        <TextBox  Name="SleepTimerTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" TextChanged="SleepTimerTextBox_TextChanged"/>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel>
-                    <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>
-                    <TextBox  Name="ConstCTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0"/>
-                    <TextBox  Name="MaxIetrationsTextBox" Text="100" Width="30" Height="25" Margin="0,30,0,0"/>
-                    <TextBox  Name="SleepTimerTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0"/>
-                </StackPanel>
-            </StackPanel>
-                       
-            <!-- Messages from application -->
-            <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Messages from application: " FontSize="20" Height="27" Margin="159,0" Width="247" />
-            <TextBox Name="ConsoleTextBox" Grid.ColumnSpan="2" Grid.Row="2" Margin="0,30,10,50" IsReadOnly="True" />
+            </Viewbox>
 
+            <!-- Messages from application -->
+            
+            <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Messages from application: " FontSize="20" Height="30" />
+            <TextBox Name="ConsoleTextBox" Grid.ColumnSpan="2" Padding="10 0 0 0" Grid.Row="2" Margin="0,30,10,50" TextAlignment="Justify" IsReadOnly="True" />
+            
             <!-- Start, reset, txt buttons -->
             <Button Content="Start" Name="StartButton" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="StartButton_Click"/>
             <Button Content="Save Data" Name="SaveFileButton" Grid.Column="1" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="SaveFileButton_Click" IsEnabled="False"/>

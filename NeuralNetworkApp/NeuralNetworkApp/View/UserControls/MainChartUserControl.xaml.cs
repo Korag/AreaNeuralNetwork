@@ -24,20 +24,24 @@ namespace NeuralNetworkApp.View.UserControls
     /// </summary>
     public partial class MainChartUserControl : UserControl
     {
-        private List<double> YValuesForFirstFunction = new List<double>();
-        private List<double> YValuesForSecondFunction = new List<double>();
-        private List<double> YValuesForThirdFunction = new List<double>();
-        private List<double> XValues = new List<double>();
-
         public static readonly DependencyProperty ChartName =
         DependencyProperty.Register("MainChartTitle", typeof(String),
         typeof(MainChartUserControl), new FrameworkPropertyMetadata(string.Empty));
+
         public String MainChartTitle
         {
             get { return GetValue(ChartName).ToString(); }
             set { SetValue(ChartName, value); }
 
         }
+
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> YFormatter { get; set; }
+
+        private List<double> XValues = new List<double>();
+        private List<double> YValueList;
+            
         public MainChartUserControl()
         {
             InitializeComponent();
@@ -45,70 +49,73 @@ namespace NeuralNetworkApp.View.UserControls
             YFormatter = value => value.ToString();
         }
 
+
         private void FillXValues()
         {
             for (double i = -1; i < 1; i += 0.1)
             {
-                XValues.Add(Math.Round(i,1));
+                XValues.Add(Math.Round(i, 1));
             }
         }
 
-        public void FillYValues(int[] Weight1, int[] Weight2, int[] Weight3)
+        private List<double> FillYValues(int[] Weight)
         {
-            double YValue1 = 0;
-            double YValue2 = 0;
-            double YValue3 = 0;
+            YValueList = new List<double>();
+            double YValue = 0;
+            if (Weight[1] != 0)
+            {
+                for (int i = 0; i < XValues.Count; i++)
+                {
+                    YValue = -(Weight[0] * XValues[i] - Weight[2]) / (Weight[1]);
+                    YValueList.Add(YValue);
+                }
+            }
+            else
+            {
+                FillListWithZeros(YValueList);
+            }
+            return YValueList;
+        }
+
+        private void FillListWithZeros(List<double> TempList)
+        {
             for (int i = 0; i < XValues.Count; i++)
             {
-                if (Weight1[1] != 0)
-                {
-                    YValue1 = -(Weight1[0] * XValues[i] - Weight1[2]) / (Weight1[1]);
-                }
-                if (Weight2[1] != 0)
-                {
-                    YValue2 = -(Weight2[0] * XValues[i] - Weight2[2]) / (Weight2[1]);
-                }
-                if (Weight2[1] != 0)
-                {
-                    YValue3 = -(Weight3[0] * XValues[i] - Weight3[2]) / (Weight3[1]);
-                }
-                
-                YValuesForFirstFunction.Add(Math.Round(YValue1,2));               
-                YValuesForSecondFunction.Add(Math.Round(YValue2,2));                
-                YValuesForThirdFunction.Add(Math.Round(YValue3,2));
+
+                TempList.Add(0);
             }
         }
-        private SeriesCollection MakeMainChart()
-        {
 
-            SeriesCollection seriesCollection = new SeriesCollection
+        private SeriesCollection FillMainChartSeriesWithYValues(int NumberOfWeights, List<int[]> Weights)
+        {
+            List<double> YValues = null;
+            SeriesCollection seriesCollection = new SeriesCollection();
+            int FunctionNumber = 0;
+            while (FunctionNumber < NumberOfWeights)
             {
-                new LineSeries
-                {
-                    Title = "Function 1",
-                    Values = YValuesForFirstFunction.AsChartValues(),
-                    Stroke = Brushes.Green,
-                    
-                },
-                new LineSeries
-                {
-                    Title = "Function 2",
-                    Values = YValuesForSecondFunction.AsChartValues(),
-                },
-                new LineSeries
-                {
-                    Title = "Function 3",
-                    Values = YValuesForThirdFunction.AsChartValues(),
-                }
-            };
+                YValues = FillYValues(Weights[FunctionNumber]);
+
+
+                seriesCollection.Add
+                (
+                    new LineSeries
+                    {
+                        Title = $"Function {FunctionNumber + 1}",
+                        Values = YValues.AsChartValues(),
+                        Stroke = new SolidColorBrush(Chart.Colors[FunctionNumber])
+
+                    }
+                );
+
+                FunctionNumber++;
+            }
 
             return seriesCollection;
         }
 
-
-        public void DrawMainChart()
+        public void DrawChart(int NumberOfWeights, List<int[]> Weights)
         {
-            SeriesCollection = MakeMainChart();
+            SeriesCollection = FillMainChartSeriesWithYValues(NumberOfWeights, Weights);
 
             Labels = ConvertFromDoubleToString();
             DataContext = this;
@@ -124,8 +131,6 @@ namespace NeuralNetworkApp.View.UserControls
             }
             return TempArray;
         }
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> YFormatter { get; set; }
+        
     }
 }

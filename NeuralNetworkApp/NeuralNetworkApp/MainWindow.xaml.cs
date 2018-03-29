@@ -1,29 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 using Microsoft.Win32;
 using NeuralNetworkApp.View.UserControls;
+
 namespace NeuralNetworkApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         LiveChartUserControl graph = new LiveChartUserControl();
         private List<int> NumberOfPointsList = new List<int>();
@@ -34,6 +26,16 @@ namespace NeuralNetworkApp
 
         public int Iteration { get; set; }
         //wpisanie do listy w xamlu elementow(wybor ilosci punktow)
+
+
+        public event PropertyChangedEventHandler PropertyChanged = (seneder, e) => { };
+
+
+        public void OnPropertyChanged(string name)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
         private void FillTheList()
         {
             for (int i = 3; i <= 6; i++)
@@ -451,22 +453,22 @@ namespace NeuralNetworkApp
             int StopChecker = 0;
             
                 //dwa warunki stopu
-                while ((Iteration < Convert.ToInt32(MaxIetrationsTextBox.Text)) && !CheckStopCondition(StopChecker))
+                while ((Iteration < Convert.ToInt32(MaxIterationsTextBox.Text)) && !CheckStopCondition(StopChecker))
                 {
                     SaveHistoryOfWeightsValues();
                     CalculationsInsideTheLoop(ref StopChecker, CurrentPoint);
                     
                     Iteration++;
                     CurrentIterationTextBlock.Text = Iteration.ToString();
+                   
                     
                 }
-            if (Convert.ToInt32(numberOfPointsComboBox.SelectedItem) == 3)
-            {
+
+
                 
                 MainChart.Visibility = Visibility.Visible;
-                MainChart.FillYValues(WeightsList[0], WeightsList[1], WeightsList[2]);
-                MainChart.DrawMainChart();
-            }
+                MainChart.DrawChart(WeightsList.Count, WeightsList);
+
             ChartsScrollViewer.Visibility = Visibility.Visible;
             DrawWeightGraphs();
             StartButton.IsEnabled = true;
@@ -677,6 +679,35 @@ namespace NeuralNetworkApp
             
             this.Close();
             
+        }
+
+        private void ConstCTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ConstCTextBox.Text.Equals("") || !Regex.IsMatch(ConstCTextBox.Text, @"^\d+$"))
+            {
+                ConstCTextBox.Text = "1";
+                MessageBox.Show("The C field accepts only numeric values");
+            }
+        }
+
+        private void MaxIterationsTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (MaxIterationsTextBox.Text.Equals("") || !Regex.IsMatch(MaxIterationsTextBox.Text, @"^\d+$"))
+            {
+
+                MaxIterationsTextBox.Text = "100";
+                MessageBox.Show("The Max itrations field accepts only numeric values");
+            }
+        }
+
+        private void SleepTimerTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SleepTimerTextBox.Text.Equals("") || !Regex.IsMatch(SleepTimerTextBox.Text, @"^\d+$"))
+            {
+
+                SleepTimerTextBox.Text = "1";
+                MessageBox.Show("The Sleep Timer field accepts only numeric values");
+            }
         }
     }
 }
