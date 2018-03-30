@@ -10,129 +10,121 @@
         mc:Ignorable="d"
         Icon="Images\favicon.png"
         WindowState="Maximized" Title="MainWindow" Height="850" Width="1500">
-    <Border Padding="10">
-        <Border.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+    
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0,0.5" StartPoint="0,0">
                 <GradientStop Color="#4CFFFFFF" Offset="0"/>
-                <GradientStop Color="#3F113176" Offset="1"/>
+                <GradientStop Color="#3F0483DA" Offset="1"/>
             </LinearGradientBrush>
-        </Border.Background>
-        <Grid>
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0,0.5" StartPoint="0,0">
-                    <GradientStop Color="#4CFFFFFF" Offset="0"/>
-                    <GradientStop Color="#3F0483DA" Offset="1"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            
-            <!-- 3 rows and 4 columns -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="177*"/>
-                <RowDefinition Height="227*"/>
-                <RowDefinition Height="320*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150*"/>
-                <ColumnDefinition Width="150*"/>
-                <ColumnDefinition Width="200*"/>
-                <ColumnDefinition Width="200*"/>
-            </Grid.ColumnDefinitions>
-           
-            <!-- Iteration text -->
+        </Grid.Background>
 
-            <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                <TextBlock  Text="Iteration:" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" />
-                <TextBlock Name="CurrentIterationTextBlock" Text="{Binding Iteration}" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+        <!-- 3 rows and 4 columns -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="177*"/>
+            <RowDefinition Height="227*"/>
+            <RowDefinition Height="320*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Iteration text -->
+
+        <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" >
+            <TextBlock  Text="Iteration:" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" />
+            <TextBlock Name="CurrentIterationTextBlock" Text="{Binding Iteration}" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"/>
+        </StackPanel>
+        <!-- WEIGHTS-->
+        <Viewbox Margin="20" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+            <StackPanel>
+                <TextBlock Text="Weights: " HorizontalAlignment="Center" FontSize="20" />
+                <local:RadioButtonsUserControl Grid.Column="0" x:Name="WeightRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="WeightRadioButtons_Checked1" Margin="0,0,-40,0" Width="148"/>
             </StackPanel>
-            <!-- WEIGHTS-->
-            <Viewbox Margin="20" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+        </Viewbox>
+
+        <!--POINTS -->
+        <Viewbox Margin="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+            <StackPanel >
+                <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20" />
+                <local:RadioButtonsUserControl Grid.Column="0" x:Name="PointRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="PointRadioButtons_Checked1" Margin="0,0,-26,0" Width="134"/>
+            </StackPanel>
+        </Viewbox>
+        <!-- Points and weights values -->
+        <DockPanel  Grid.Row="1">
+            <TabControl>
+                <TabItem Name="pointsDockPanel" Header="Points" >
+                    <ScrollViewer>
+                        <WrapPanel Name="pointsWrapPanel">
+                            <my:pointValueUserControl x:Name="X1" TextValue="X1 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X2" TextValue="X2 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X3" TextValue="X3 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X4" TextValue="X4 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X5" TextValue="X5 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X6" TextValue="X6 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                        </WrapPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Name="weightsDockPanel" Header="Weights" >
+                    <ScrollViewer>
+                        <WrapPanel Name="weightsWrapPanel">
+                            <my:pointValueUserControl x:Name="W1" TextValue="W1 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W2" TextValue="W2 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W3" TextValue="W3 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W4" TextValue="W4 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W5" TextValue="W5 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W6" TextValue="W6 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                        </WrapPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+
+        <!-- Number of points, c value, max iterations, sleep timer -->
+        <Viewbox Margin="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+            <StackPanel Orientation="Horizontal">
+                <StackPanel  Margin="10,0,0,0">
+                    <TextBlock Height="25" Text="Number of points = " HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBlock Height="25" Text="C = " HorizontalAlignment="Left" Margin="0,30,0,0" FontSize="20"/>
+                    <TextBlock Height="25" Text="Max iterations = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBlock Height="25" Text="Sleep Timer = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
+                </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="Weights: " HorizontalAlignment="Center" FontSize="20" />
-                    <local:RadioButtonsUserControl Grid.Column="0" x:Name="WeightRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="WeightRadioButtons_Checked1" Margin="0,0,-40,0" Width="148"/>
+                    <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>
+                    <TextBox  Name="ConstCTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" TextChanged="ConstCTextBox_TextChanged"/>
+                    <TextBox  Name="MaxIterationsTextBox" Text="100" Width="30" Height="25" Margin="0,30,0,0" TextChanged="MaxIterationsTextBox_TextChanged"/>
+                    <TextBox  Name="SleepTimerTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" TextChanged="SleepTimerTextBox_TextChanged"/>
                 </StackPanel>
-            </Viewbox>
-            
-            <!--POINTS -->
-            <Viewbox Margin="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
-                <StackPanel >
-                    <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20" />
-                    <local:RadioButtonsUserControl Grid.Column="0" x:Name="PointRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="PointRadioButtons_Checked1" Margin="0,0,-26,0" Width="134"/>
-                </StackPanel>
-            </Viewbox>
-            <!-- Points and weights values -->
-            <DockPanel  Grid.Row="1">
-                <TabControl>
-                    <TabItem Name="pointsDockPanel" Header="Points" >
-                        <ScrollViewer>
-                            <WrapPanel Name="pointsWrapPanel">
-                                <my:pointValueUserControl x:Name="X1" TextValue="X1 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="X2" TextValue="X2 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="X3" TextValue="X3 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="X4" TextValue="X4 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="X5" TextValue="X5 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="X6" TextValue="X6 = " Visibility="Hidden"/>
-                            </WrapPanel>
-                        </ScrollViewer>
-                    </TabItem>
-                    <TabItem Name="weightsDockPanel" Header="Weights" >
-                        <ScrollViewer>
-                            <WrapPanel Name="weightsWrapPanel">
-                                <my:pointValueUserControl x:Name="W1" TextValue="W1 = " Visibility="Hidden" />
-                                <my:pointValueUserControl x:Name="W2" TextValue="W2 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="W3" TextValue="W3 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="W4" TextValue="W4 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="W5" TextValue="W5 = " Visibility="Hidden"/>
-                                <my:pointValueUserControl x:Name="W6" TextValue="W6 = " Visibility="Hidden"/>
-                            </WrapPanel>
-                        </ScrollViewer>
-                    </TabItem>
-                </TabControl>
-            </DockPanel>
+            </StackPanel>
+        </Viewbox>
 
-            <!-- Number of points, c value, max iterations, sleep timer -->
-            <Viewbox Margin="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel  Margin="10,0,0,0">
-                        <TextBlock Height="25" Text="Number of points = " HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
-                        <TextBlock Height="25" Text="C = " HorizontalAlignment="Left" Margin="0,30,0,0" FontSize="20"/>
-                        <TextBlock Height="25" Text="Max iterations = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
-                        <TextBlock Height="25" Text="Sleep Timer = " HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="20"/>
-                    </StackPanel>
-                    <StackPanel>
-                        <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>
-                        <TextBox  Name="ConstCTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" TextChanged="ConstCTextBox_TextChanged"/>
-                        <TextBox  Name="MaxIterationsTextBox" Text="100" Width="30" Height="25" Margin="0,30,0,0" TextChanged="MaxIterationsTextBox_TextChanged"/>
-                        <TextBox  Name="SleepTimerTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" TextChanged="SleepTimerTextBox_TextChanged"/>
-                    </StackPanel>
-                </StackPanel>
-            </Viewbox>
+        <!-- Messages from application -->
 
-            <!-- Messages from application -->
-            
-            <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Messages from application: " FontSize="20" Height="30" />
-            <TextBox Name="ConsoleTextBox" Grid.ColumnSpan="2" Padding="10 0 0 0" Grid.Row="2" Margin="0,30,10,50" TextAlignment="Justify" IsReadOnly="True" />
-            
-            <!-- Start, reset, txt buttons -->
-            <Button Content="Start" Name="StartButton" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="StartButton_Click"/>
-            <Button Content="Save Data" Name="SaveFileButton" Grid.Column="1" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="SaveFileButton_Click" IsEnabled="False"/>
-            <Button Content="RESET" x:Name="ResetButton" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetButton_Click" Grid.ColumnSpan="2"/>
-           
-            <!--Main chart-->
-            <local:MainChartUserControl x:Name="MainChart" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" MainChartTitle="Main Chart"/>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Text="Messages from application: " FontSize="20" Height="30" />
+        <TextBox Name="ConsoleTextBox" Grid.ColumnSpan="2" Padding="10 0 0 0" Grid.Row="2" Margin="0,30,10,50" TextAlignment="Justify" IsReadOnly="True" />
 
-            <!-- Weights charts -->
-            <ScrollViewer Name="ChartsScrollViewer" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Visibility="Hidden">
-                <StackPanel Name="ChartsStackPanel">
-                    <my:LiveChartUserControl x:Name="FirstWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 1" />
-                    <my:LiveChartUserControl x:Name="SecondWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 2" />
-                    <my:LiveChartUserControl x:Name="ThirdWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 3" />
-                    <my:LiveChartUserControl x:Name="FourthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 4" />
-                    <my:LiveChartUserControl x:Name="FifthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 5" />
-                    <my:LiveChartUserControl x:Name="SixthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 6" />
-                </StackPanel>
-            </ScrollViewer>
-            
+        <!-- Start, reset, txt buttons -->
+        <Button Content="Start" Name="StartButton" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="StartButton_Click"/>
+        <Button Content="Save Data" Name="SaveFileButton" Grid.Column="1" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="SaveFileButton_Click" IsEnabled="False"/>
+        <Button Content="RESET" x:Name="ResetButton" Grid.Row="2" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetButton_Click" Grid.ColumnSpan="2"/>
 
-        </Grid>
-    </Border>
+        <!--Main chart-->
+        <local:MainChartUserControl x:Name="MainChart" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" Visibility="Hidden" MainChartTitle="Main Chart"/>
+
+        <!-- Weights charts -->
+        <ScrollViewer Name="ChartsScrollViewer" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Visibility="Hidden">
+            <StackPanel Name="ChartsStackPanel">
+                <my:LiveChartUserControl x:Name="FirstWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 1" />
+                <my:LiveChartUserControl x:Name="SecondWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 2" />
+                <my:LiveChartUserControl x:Name="ThirdWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 3" />
+                <my:LiveChartUserControl x:Name="FourthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 4" />
+                <my:LiveChartUserControl x:Name="FifthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 5" />
+                <my:LiveChartUserControl x:Name="SixthWeightChart" Height="200" Visibility="Hidden" ChartTitle="Weight 6" />
+            </StackPanel>
+        </ScrollViewer>
+        
+    </Grid>
 </Window>

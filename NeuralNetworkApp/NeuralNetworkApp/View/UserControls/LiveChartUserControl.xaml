@@ -13,7 +13,7 @@
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="X1" LabelFormatter="{Binding YFormatter}" Foreground="Black" >
                     <lvc:Axis.Separator>
-                        <lvc:Separator IsEnabled="False" Step="1"></lvc:Separator>
+                        <lvc:Separator IsEnabled="False" Step="2"></lvc:Separator>
                     </lvc:Axis.Separator>
                 </lvc:Axis>
             </lvc:CartesianChart.AxisY>

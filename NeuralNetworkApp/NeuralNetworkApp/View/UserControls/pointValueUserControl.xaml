@@ -11,9 +11,9 @@
             <TextBlock Name="pointValueTextBlock" Text="{Binding ElementName=pointValueControl, Path=TextValue}" Width="50"/>
         </StackPanel>
         <StackPanel Width="50" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox Name="pointValueTextBox1" Text="{Binding ElementName=pointValueControl, Path=FirstValueText}"/>
-            <TextBox Name="pointValueTextBox2" Text="{Binding ElementName=pointValueControl, Path=SecondValueText}"/>
-            <TextBox Name="pointValueTextBox3" Text="{Binding ElementName=pointValueControl, Path=ThirdValueText}"/>
+            <TextBox Name="pointValueTextBox1" Text="{Binding ElementName=pointValueControl, Path=FirstValueText}" TextChanged="OnTextChanged"/>
+            <TextBox Name="pointValueTextBox2" Text="{Binding ElementName=pointValueControl, Path=SecondValueText}" TextChanged="OnTextChanged"/>
+            <TextBox Name="pointValueTextBox3" Text="{Binding ElementName=pointValueControl, Path=ThirdValueText}" TextChanged="OnTextChanged"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -32,7 +32,7 @@ namespace NeuralNetworkApp.View.UserControls
 
         public static readonly DependencyProperty TextProperty2 =
         DependencyProperty.Register("FirstValueText", typeof(String),
-        typeof(pointValueUserControl), new FrameworkPropertyMetadata(string.Empty));
+        typeof(pointValueUserControl), new FrameworkPropertyMetadata("0"));
         public String FirstValueText
         {
             get { return GetValue(TextProperty2).ToString(); }
@@ -42,7 +42,7 @@ namespace NeuralNetworkApp.View.UserControls
 
         public static readonly DependencyProperty TextProperty3 =
         DependencyProperty.Register("SecondValueText", typeof(String),
-        typeof(pointValueUserControl), new FrameworkPropertyMetadata(string.Empty));
+        typeof(pointValueUserControl), new FrameworkPropertyMetadata("0"));
         public String SecondValueText
         {
             get { return GetValue(TextProperty3).ToString(); }
@@ -55,6 +55,21 @@ namespace NeuralNetworkApp.View.UserControls
         {
             get { return GetValue(TextProperty4).ToString(); }
             set { SetValue(TextProperty4, value); }
+        }
+
+
+        public static readonly RoutedEvent TextChangedEvent =
+       EventManager.RegisterRoutedEvent("TextChanged", RoutingStrategy.Bubble,
+       typeof(RoutedEventHandler), typeof(pointValueUserControl));
+
+        public event RoutedEventHandler TextChanged
+        {
+            add { AddHandler(TextChangedEvent, value); }
+            remove { RemoveHandler(TextChangedEvent, value); }
+        }
+        private void OnTextChanged(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(TextChangedEvent));
         }
 
 
