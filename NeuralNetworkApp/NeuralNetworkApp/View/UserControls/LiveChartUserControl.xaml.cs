@@ -1,6 +1,7 @@
 ﻿using LiveCharts;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-     
+
 namespace NeuralNetworkApp.View.UserControls
 {
     /// <summary>
@@ -20,15 +21,14 @@ namespace NeuralNetworkApp.View.UserControls
         private List<double> FirstWeightList = new List<double>();
         private List<double> SecondWeightList = new List<double>();
         private List<double> ThirdWeightList = new List<double>();
-        private List<string> IterationsList = new List<string>();
-
+        private List<double> IterationsList = new List<double>();
 
         public static readonly DependencyProperty ChartName =
         DependencyProperty.Register("ChartTitle", typeof(String),
         typeof(LiveChartUserControl), new FrameworkPropertyMetadata(string.Empty));
 
-     
-        
+
+
 
         public String ChartTitle
         {
@@ -37,12 +37,12 @@ namespace NeuralNetworkApp.View.UserControls
 
         }
 
-        
+
         public LiveChartUserControl()
         {
             InitializeComponent();
             YFormatter = value => value.ToString();
-            
+
             //modifying the series collection will animate and update the chart
 
 
@@ -50,22 +50,42 @@ namespace NeuralNetworkApp.View.UserControls
             
         }
 
+        public void ResetValues()
+        {
+            
+            FirstWeightList = new List<double>();
+            SecondWeightList = new List<double>();
+            ThirdWeightList = new List<double>();
+            IterationsList = new List<double>();
+        }
+
         public void AddToHistory(int[] Weight, int Iteration)
         {
             FirstWeightList.Add(Weight[0]);
             SecondWeightList.Add(Weight[1]);
             ThirdWeightList.Add(Weight[2]);
-            IterationsList.Add((Iteration+1).ToString());
+            IterationsList.Add(Iteration + 1);
+        }
+
+        private List<string> ConvertListFromDoubleToString(List<double> ArrayToConvert)
+        {
+            List<string> ArrayToReturn = new List<string>();
+            for (int i = 0; i < ArrayToConvert.Count; i++)
+            {
+                ArrayToReturn.Add(ArrayToConvert[i].ToString());
+            }
+            return ArrayToReturn;
+
         }
 
         public void MakeChart()
         {
-            SeriesCollection = MakeChartSeries();
             
-            Labels = IterationsList.ToArray();
+            SeriesCollection = MakeChartSeries();
+
+            Labels = ConvertListFromDoubleToString(IterationsList).ToArray();
             DataContext = this;
         }
-
 
 
         private SeriesCollection MakeChartSeries()
@@ -88,7 +108,7 @@ namespace NeuralNetworkApp.View.UserControls
                 {
                     Title = "W3",
                     Values = ThirdWeightList.AsChartValues(),
-                    
+
                 }
             };
             
@@ -101,5 +121,5 @@ namespace NeuralNetworkApp.View.UserControls
         public string[] Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
     }
-    }
+}
 

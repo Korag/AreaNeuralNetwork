@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using NeuralNetworkApp.View.UserControls;
 
@@ -17,12 +18,14 @@ namespace NeuralNetworkApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        LiveChartUserControl graph = new LiveChartUserControl();
+        DispatcherTimer dispatcherTimer = new DispatcherTimer();
+
         private List<int> NumberOfPointsList = new List<int>();
         private List<int> ValuesFromSgnFunctionList;
+
         private List<int[]> PointsList;
         private List<int[]> WeightsList;
-        private List<int[]> DeltaList;//w przyszłości Delta będzie obliczania w osobnej metodzie
+        private List<int[]> DeltaList;
 
         public int Iteration { get; set; }
 
@@ -40,10 +43,10 @@ namespace NeuralNetworkApp
         {
             FillTheList();
 
-            //TO JEST NIERUSZ TO TUTAJ BYLO I PANOWIE Z MICRO$OFTU ZNAJA SIE NA SWOJEJ ROBOCIE WIEC NAWET NA TO NIE PATRZ I SCROLLUJ DALEJ
+            //nierusz
             InitializeComponent();
 
-            //to cos sluzy do bindowania wartosci takie cos jak w cs'ie jak chcesz rzucac idealnie smoke'a
+            //bindowanie wartosci
             numberOfPointsComboBox.ItemsSource = NumberOfPointsList;
 
             //to tez, jak wyzej 
@@ -72,8 +75,6 @@ namespace NeuralNetworkApp
 
 
         //zmiana widocznosci wag i punktow w zaleznosci od wyboru ilosci punktow
-        //takie czary mary one tam są tylko niewidzialne,
-        //wadliwe rozwiazanie ale dziala i na chwile obecna ani razu sie z tego powodu nie sypnelo
         private void ChangePointsWeightsAndDValuesVisibility()
         {     
             //ukrycie wag i punktow w razie zmiany ilosci punktow z wiekszej na mniejsza
@@ -86,11 +87,11 @@ namespace NeuralNetworkApp
                 item.Visibility = Visibility.Hidden;
             }
 
-            //czary mary opisane wyzej
+            
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
-                var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;//punkty pobrane z WrpaPanela
-                var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi pobrane z WrpaPanela
+                var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;//punkty pobrane z WrapPanela
+                var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi pobrane z WrapPanela
                 tempList.Visibility = Visibility.Visible;
                 tempList2.Visibility = Visibility.Visible;
             }
@@ -113,11 +114,9 @@ namespace NeuralNetworkApp
         //NIE ROZWIJAC!!!
         #region PointSelection
 
-            //no dobra jak serio chcesz wiedziec co tutaj spi no to juz mowie
-            //to cos czyli selectpointopt.. bla bla sluzy do sprawdzania ktory z radio buttonow jest wybrany
         private void SelectPointOptionFromRadioBoxes()
         {
-            //do przemyślenia
+            
             if ((bool)PointRadioButtons.radioRandom.IsChecked)
             {
                 FillThePointsWithRandomValues();
@@ -136,9 +135,9 @@ namespace NeuralNetworkApp
             }
 
         }
-        //tutaj sa dziabągi do obsługi radio buttonów
+        
 
-        //ten sluzy do wypelniania wartosci randomowych
+        //wartosci losowe
         private void FillThePointsWithRandomValues()
         {
             DisablePointControls();
@@ -151,7 +150,7 @@ namespace NeuralNetworkApp
             }
         }
 
-        //to cos sluzy do wypelniania pol wartosciami z ksiazki
+        //wartosci z ksiazki 
         private void FillThePointsWithBookValues()
         {
             if (Convert.ToInt32(numberOfPointsComboBox.SelectedItem)!=3)
@@ -179,10 +178,10 @@ namespace NeuralNetworkApp
             
         }
 
-        //to cos sluzy do wypelniania pol wartosciami ze zbioru(w tym przypadku z pliku txt)
+        //wartosci ze zbioru(w tym przypadku z pliku txt)
         private void FillThePointsWithCollectionValues()
         {            
-            //hmmm w sumie najlatwiejszy sposob na zrobienie glupi, latwy ale dziala, do zmiany w przyszlosci :P
+            
             string ValuesFromCollection =  SelectCollection();
 
             if (ValuesFromCollection != null)
@@ -203,9 +202,9 @@ namespace NeuralNetworkApp
         private string SelectCollection()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            var result = openFileDialog.ShowDialog(); // Show the dialog.
+            var result = openFileDialog.ShowDialog();
             string text = null;
-            if (result == true) // Test result.
+            if (result == true)
             {
                 string file = openFileDialog.FileName;
                 try
@@ -269,8 +268,7 @@ namespace NeuralNetworkApp
         #endregion
 
 
-        //to chyba jest do wyjebania chyba że jakieś sprawdzanie robimy?
-        //no chyba nie, to będzie robiło że pola są puste i sam masz sobie wpisać ale znajac mentalnosc polaka to nie bedzie mu się chciało wiec i tak tego nie uzyje
+        //wartosci z klawiatury
         private void FillThePointsWithKeyboardValues()
         {
             EnablePointControls();
@@ -286,10 +284,10 @@ namespace NeuralNetworkApp
 
         //NIE ROZWIJAC!!!
         #region WeightSelection
-            //nie chce mi sie znowu tego samego pisać, wszystko to samo co w punktach tylko zrobione pod wagi
+            
         private void SelectWeightOptionFromRadioBoxes()
         {
-            //do przemyślenia
+            
             if ((bool)WeightRadioButtons.radioRandom.IsChecked)
             {
                 FillTheWeightsWithRandomValues();
@@ -414,10 +412,7 @@ namespace NeuralNetworkApp
             }
             return text;
         }
-
-
        
-
         #endregion
 
         private void FillTheWeightsWithKeyboardValues()
@@ -438,7 +433,7 @@ namespace NeuralNetworkApp
         private void SavePointsAndWeightsValuesToArray()
         {
             //utworzenie tablic ale takze wyzerowanie wartosci w srodku
-            //(do przemyslenia czy nie dac tego do osobnej funkcji i stworzyc np przycisk reset ktory usunalem xd)
+           
             PointsList = new List<int[]>();
             WeightsList = new List<int[]>();
             DeltaList = new List<int[]>();
@@ -454,7 +449,7 @@ namespace NeuralNetworkApp
                 var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi pobrane z WrpaPanela
 
                 //pobranie i konwersja wartosci z pol oraz zapisanie ich do tablic tymczasowych
-                //w sumie na chwile obecna nie mam lepszego pomyslu a to dziala wiec.. do przemyslenia
+                
                     tempPointArray[0] = Convert.ToInt32(tempList.pointValueTextBox1.Text);
                     tempPointArray[1] = Convert.ToInt32(tempList.pointValueTextBox2.Text);
                     tempPointArray[2] = Convert.ToInt32(tempList.pointValueTextBox3.Text);
@@ -471,39 +466,47 @@ namespace NeuralNetworkApp
             }
 
         }
+        private void Timer_Tick(object sender, EventArgs e, ref int StopChecker,int[] CurrentPoint)
+        {                                    
+            CalculationsInsideTheLoop(ref StopChecker, CurrentPoint);
 
+            Iteration++;
+            CurrentIterationTextBlock.Text = Iteration.ToString();
+            SaveHistoryOfWeightsValues();
+          
+            if (Iteration > Convert.ToInt32(MaxIterationsTextBox.Text) || CheckStopCondition(StopChecker))
+            {
+                
+                MainChart.Visibility = Visibility.Visible;                
+                MainChart.DrawChart(WeightsList.Count, WeightsList);
+
+                ChartsScrollViewer.Visibility = Visibility.Visible;
+                DrawWeightGraphs();
+
+                StartButton.IsEnabled = true;
+                SaveFileButton.IsEnabled = true;
+
+                dispatcherTimer.Stop();
+            }
+        }
         #region Calculations
         private void MainCalculations()
         {
+            int StopChecker = 0;
             //pobranie wartosci z pol oraz konwersja na int
             int C = Convert.ToInt32(ConstCTextBox.Text);
             int SleepTimer = Convert.ToInt32(SleepTimerTextBox.Text);
             var CurrentPoint = PointsList[0];
             //licznik P+1
-            int StopChecker = 0;
 
-            //dwa warunki stopu
-            while ((Iteration < Convert.ToInt32(MaxIterationsTextBox.Text)) && !CheckStopCondition(StopChecker))
-            {
-                SaveHistoryOfWeightsValues();
-                CalculationsInsideTheLoop(ref StopChecker, CurrentPoint);
+            MainLoopEventArgs mainLoopEventArgs = new MainLoopEventArgs();
 
-                Iteration++;
-                CurrentIterationTextBlock.Text = Iteration.ToString();
-
-
-            }
-
-
-
-            MainChart.Visibility = Visibility.Visible;
-            MainChart.DrawChart(WeightsList.Count, WeightsList);
-
-            ChartsScrollViewer.Visibility = Visibility.Visible;
-            DrawWeightGraphs();
-            StartButton.IsEnabled = true;
-            SaveFileButton.IsEnabled = true;
+            dispatcherTimer.Tick += (object s, EventArgs a) => Timer_Tick(s, a, ref StopChecker, CurrentPoint);
+            dispatcherTimer.Interval = TimeSpan.FromMilliseconds(SleepTimer*500);
+            dispatcherTimer.Start();
+            
         }
+
 
         private void CalculationsInsideTheLoop(ref int StopChecker, int[] CurrentPoint)
         {
@@ -518,7 +521,7 @@ namespace NeuralNetworkApp
             ChangeWeightIfNeeded(IterationForCalculations, ref StopChecker);//zmiana wag
 
 
-            // Thread.Sleep(SleepTimer * 1000);   
+            
         }
 
 
@@ -616,9 +619,7 @@ namespace NeuralNetworkApp
 
         //wypisywanie danych w oknie "messages from application" po każdej iteracji
         private void UpdateTextBox(int MainIteration, int CheckColor)
-        {
-        
-
+        {        
             ConsoleTextBox.Text += "Iteration: " + (MainIteration + 1) + "\r\n";
             string pointsString = "";
             for (int i = 0; i < PointsList.Count; i++)
@@ -660,6 +661,8 @@ namespace NeuralNetworkApp
             SelectPointOptionFromRadioBoxes();
         }
 
+
+        //zapis do pliku
         private void SaveFileButton_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -681,6 +684,8 @@ namespace NeuralNetworkApp
                 
         }
 
+
+        #region DrawChartsMethods
         private void DrawWeightGraphs()
         {
             var Weights = ChartsStackPanel.Children;
@@ -702,6 +707,9 @@ namespace NeuralNetworkApp
                 Weight.AddToHistory(WeightsList[i], Iteration);
             }
         }
+        #endregion
+
+
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
@@ -774,7 +782,7 @@ namespace NeuralNetworkApp
 
 
 
-        #region Disable and enable points and weights
+        #region Disable or enable points and weights
 
 
         private void EnablePointControls()

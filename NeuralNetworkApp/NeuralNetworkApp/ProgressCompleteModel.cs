@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NeuralNetworkApp
+{
+    public class ProgressCompleteModel
+    {
+        public int Iteration { get; set; } = 0;
+    }
+}
