@@ -59,7 +59,7 @@ namespace NeuralNetworkApp.View.UserControls
             IterationsList = new List<double>();
         }
 
-        public void AddToHistory(int[] Weight, int Iteration)
+        public void AddToHistory(double[] Weight, int Iteration)
         {
             FirstWeightList.Add(Weight[0]);
             SecondWeightList.Add(Weight[1]);

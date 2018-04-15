@@ -38,45 +38,46 @@
             <TextBlock  Text="Iteration:" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" />
             <TextBlock Name="CurrentIterationTextBlock" Text="{Binding Iteration}" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"/>
         </StackPanel>
-        <!-- WEIGHTS-->
+        <!--POINTS -->
         <Viewbox Margin="20" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+            <StackPanel >
+                <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20" />
+                <local:RadioButtonsUserControl Grid.Column="0" x:Name="PointRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="PointRadioButtons_Checked1" Margin="0,0,-26,0" Width="134"/>
+            </StackPanel>
+        </Viewbox>
+       
+        <!-- WEIGHTS-->
+        <Viewbox Margin="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
             <StackPanel>
                 <TextBlock Text="Weights: " HorizontalAlignment="Center" FontSize="20" />
                 <local:RadioButtonsUserControl Grid.Column="0" x:Name="WeightRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="WeightRadioButtons_Checked1" Margin="0,0,-40,0" Width="148"/>
             </StackPanel>
         </Viewbox>
 
-        <!--POINTS -->
-        <Viewbox Margin="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
-            <StackPanel >
-                <TextBlock Text="Points: " HorizontalAlignment="Center" FontSize="20" />
-                <local:RadioButtonsUserControl Grid.Column="0" x:Name="PointRadioButtons" VerticalAlignment="Center" HorizontalAlignment="Center" Checked1="PointRadioButtons_Checked1" Margin="0,0,-26,0" Width="134"/>
-            </StackPanel>
-        </Viewbox>
         <!-- Points and weights values -->
         <DockPanel  Grid.Row="1">
             <TabControl>
                 <TabItem Name="pointsDockPanel" Header="Points" >
                     <ScrollViewer>
                         <WrapPanel Name="pointsWrapPanel">
-                            <my:pointValueUserControl x:Name="X1" TextValue="X1 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="X2" TextValue="X2 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="X3" TextValue="X3 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="X4" TextValue="X4 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="X5" TextValue="X5 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="X6" TextValue="X6 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X1" TextValue="X1 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X2" TextValue="X2 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X3" TextValue="X3 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X4" TextValue="X4 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X5" TextValue="X5 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="X6" TextValue="X6 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
                         </WrapPanel>
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Name="weightsDockPanel" Header="Weights" >
                     <ScrollViewer>
                         <WrapPanel Name="weightsWrapPanel">
-                            <my:pointValueUserControl x:Name="W1" TextValue="W1 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="W2" TextValue="W2 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="W3" TextValue="W3 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="W4" TextValue="W4 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="W5" TextValue="W5 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
-                            <my:pointValueUserControl x:Name="W6" TextValue="W6 = " Visibility="Hidden" TextChanged="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W1" TextValue="W1 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W2" TextValue="W2 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W3" TextValue="W3 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W4" TextValue="W4 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W5" TextValue="W5 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
+                            <my:pointValueUserControl x:Name="W6" TextValue="W6 = " Visibility="Hidden" LostFocus="CheckIfTextIsEmptyOrContainsLetter" IsEnabled="False"/>
                         </WrapPanel>
                     </ScrollViewer>
                 </TabItem>
@@ -94,9 +95,9 @@
                 </StackPanel>
                 <StackPanel>
                     <ComboBox Name="numberOfPointsComboBox" Width="35" Height="25" Margin="0,20,0,0" SelectedIndex="0" SelectionChanged="numberOfPointsComboBox_SelectionChanged"/>
-                    <TextBox  Name="ConstCTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" TextChanged="ConstCTextBox_TextChanged"/>
-                    <TextBox  Name="MaxIterationsTextBox" Text="100" Width="30" Height="25" Margin="0,30,0,0" TextChanged="MaxIterationsTextBox_TextChanged"/>
-                    <TextBox  Name="SleepTimerTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" TextChanged="SleepTimerTextBox_TextChanged"/>
+                    <TextBox  Name="ConstCTextBox" Text="1" Width="30" Height="25" Margin="0,30,0,0" LostFocus="CheckConstCTextBox"/>
+                    <TextBox  Name="MaxIterationsTextBox" Text="100" Width="30" Height="25" Margin="0,30,0,0" LostFocus="CheckMaxIterationsTextBox"/>
+                    <TextBox  Name="SleepTimerTextBox" Text="0" Width="30" Height="25" Margin="0,30,0,0" LostFocus="CheckSleepTimerTextBox"/>
                 </StackPanel>
             </StackPanel>
         </Viewbox>

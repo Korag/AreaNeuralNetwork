@@ -58,7 +58,7 @@ namespace NeuralNetworkApp.View.UserControls
             }
         }
 
-        private List<double> FillYValues(int[] Weight)
+        private List<double> FillYValues(double[] Weight)
         {
             YValueList = new List<double>();
             double YValue = 0;
@@ -86,7 +86,7 @@ namespace NeuralNetworkApp.View.UserControls
             }
         }
 
-        private SeriesCollection FillMainChartSeriesWithYValues(int NumberOfWeights, List<int[]> Weights)
+        private SeriesCollection FillMainChartSeriesWithYValues(int NumberOfWeights, List<double[]> Weights)
         {
             List<double> YValues = null;
             SeriesCollection seriesCollection = new SeriesCollection();
@@ -113,7 +113,7 @@ namespace NeuralNetworkApp.View.UserControls
             return seriesCollection;
         }
 
-        public void DrawChart(int NumberOfWeights, List<int[]> Weights)
+        public void DrawChart(int NumberOfWeights, List<double[]> Weights)
         {
             SeriesCollection = FillMainChartSeriesWithYValues(NumberOfWeights, Weights);
 

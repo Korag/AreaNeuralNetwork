@@ -23,9 +23,9 @@ namespace NeuralNetworkApp
         private List<int> NumberOfPointsList = new List<int>();
         private List<int> ValuesFromSgnFunctionList;
 
-        private List<int[]> PointsList;
-        private List<int[]> WeightsList;
-        private List<int[]> DeltaList;
+        private List<double[]> PointsList;
+        private List<double[]> WeightsList;
+        private List<double[]> DeltaList;
 
         public int Iteration { get; set; }
 
@@ -272,13 +272,6 @@ namespace NeuralNetworkApp
         private void FillThePointsWithKeyboardValues()
         {
             EnablePointControls();
-            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
-            {
-                var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;
-                tempList.FirstValueText = "0";
-                tempList.SecondValueText = "0";
-                tempList.ThirdValueText = "0";
-            }
         }
         #endregion
 
@@ -418,13 +411,6 @@ namespace NeuralNetworkApp
         private void FillTheWeightsWithKeyboardValues()
         {
             EnableWeightControls();
-            for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
-            {
-                var tempList = weightsWrapPanel.Children[i] as pointValueUserControl;
-                tempList.FirstValueText = "0";
-                tempList.SecondValueText = "0";
-                tempList.ThirdValueText= "0";
-            }
             
         }
         #endregion
@@ -434,29 +420,29 @@ namespace NeuralNetworkApp
         {
             //utworzenie tablic ale takze wyzerowanie wartosci w srodku
            
-            PointsList = new List<int[]>();
-            WeightsList = new List<int[]>();
-            DeltaList = new List<int[]>();
+            PointsList = new List<double[]>();
+            WeightsList = new List<double[]>();
+            DeltaList = new List<double[]>();
 
             for (int i = 0; i < Convert.ToInt32(numberOfPointsComboBox.SelectedItem); i++)
             {
                 //tablice tymczasowe do ktorych wpisywane sa wartosci
-                int[] tempPointArray = new int[3];
-                int[] tempWeightArray = new int[3];
-                int[] tempDeltaArray = new int[3] { 0,0,0};
+                double[] tempPointArray = new double[3];
+                double[] tempWeightArray = new double[3];
+                double[] tempDeltaArray = new double[3] {0, 0, 0};
 
                 var tempList = pointsWrapPanel.Children[i] as pointValueUserControl;//punkty pobrane z WrpaPanela
                 var tempList2 = weightsWrapPanel.Children[i] as pointValueUserControl;//wagi pobrane z WrpaPanela
 
                 //pobranie i konwersja wartosci z pol oraz zapisanie ich do tablic tymczasowych
                 
-                    tempPointArray[0] = Convert.ToInt32(tempList.pointValueTextBox1.Text);
-                    tempPointArray[1] = Convert.ToInt32(tempList.pointValueTextBox2.Text);
-                    tempPointArray[2] = Convert.ToInt32(tempList.pointValueTextBox3.Text);
+                    tempPointArray[0] = Convert.ToDouble(tempList.pointValueTextBox1.Text.Replace('.', ','));
+                    tempPointArray[1] = Convert.ToDouble(tempList.pointValueTextBox2.Text.Replace('.', ','));
+                    tempPointArray[2] = Convert.ToDouble(tempList.pointValueTextBox3.Text.Replace('.', ','));
 
-                    tempWeightArray[0] = Convert.ToInt32(tempList2.pointValueTextBox1.Text);
-                    tempWeightArray[1] = Convert.ToInt32(tempList2.pointValueTextBox2.Text);
-                    tempWeightArray[2] = Convert.ToInt32(tempList2.pointValueTextBox3.Text);
+                    tempWeightArray[0] = Convert.ToDouble(tempList2.pointValueTextBox1.Text.Replace('.', ','));
+                    tempWeightArray[1] = Convert.ToDouble(tempList2.pointValueTextBox2.Text.Replace('.', ','));
+                    tempWeightArray[2] = Convert.ToDouble(tempList2.pointValueTextBox3.Text.Replace('.', ','));
 
 
                 //przeniesienie tablic tymczasowych do list(jedna tablica tymczasowa to jeden punkt/waga)
@@ -466,13 +452,14 @@ namespace NeuralNetworkApp
             }
 
         }
-        private void Timer_Tick(object sender, EventArgs e, ref int StopChecker,int[] CurrentPoint)
-        {                                    
+        private void Timer_Tick(object sender, EventArgs e, ref int StopChecker, double[] CurrentPoint)
+        {
+            SaveHistoryOfWeightsValues();
             CalculationsInsideTheLoop(ref StopChecker, CurrentPoint);
 
             Iteration++;
             CurrentIterationTextBlock.Text = Iteration.ToString();
-            SaveHistoryOfWeightsValues();
+            
           
             if (Iteration > Convert.ToInt32(MaxIterationsTextBox.Text) || CheckStopCondition(StopChecker))
             {
@@ -494,12 +481,11 @@ namespace NeuralNetworkApp
         {
             int StopChecker = 0;
             //pobranie wartosci z pol oraz konwersja na int
-            int C = Convert.ToInt32(ConstCTextBox.Text);
-            int SleepTimer = Convert.ToInt32(SleepTimerTextBox.Text);
+            double C = Convert.ToDouble(ConstCTextBox.Text.Replace('.', ','));
+            double SleepTimer = Convert.ToDouble(SleepTimerTextBox.Text.Replace('.', ','));
             var CurrentPoint = PointsList[0];
             //licznik P+1
 
-            MainLoopEventArgs mainLoopEventArgs = new MainLoopEventArgs();
 
             dispatcherTimer.Tick += (object s, EventArgs a) => Timer_Tick(s, a, ref StopChecker, CurrentPoint);
             dispatcherTimer.Interval = TimeSpan.FromMilliseconds(SleepTimer*500);
@@ -508,7 +494,7 @@ namespace NeuralNetworkApp
         }
 
 
-        private void CalculationsInsideTheLoop(ref int StopChecker, int[] CurrentPoint)
+        private void CalculationsInsideTheLoop(ref int StopChecker, double[] CurrentPoint)
         {
             var IterationForCalculations = Iteration % Convert.ToInt32(numberOfPointsComboBox.SelectedItem);
 
@@ -526,10 +512,10 @@ namespace NeuralNetworkApp
 
 
         //funkcja aktywacji sgn mnozenie macierzy a dokladniej ich skladowych na podstawie sumy program decyduje czy wartość funkcji sgn jest 1 czy -1
-        private List<int> SgnFunction(int[] Point, List<int[]> WeightsList)//jeden punkt przemnożony przez każdą wagę
+        private List<int> SgnFunction(double[] Point, List<double[]> WeightsList)//jeden punkt przemnożony przez każdą wagę
         {
             ValuesFromSgnFunctionList = new List<int>();
-            int sum = 0;
+            double sum = 0;
             for (int i = 0; i < WeightsList.Count; i++)
             {
                 var Weight = WeightsList[i];
@@ -586,7 +572,7 @@ namespace NeuralNetworkApp
                     for (int j = 0; j < Weight.Length; j++)
                     {
                         //każda składowa wagi jest obsługiwana osobno
-                        Delta[j] = (int)((1.0 / 2.0) * Convert.ToInt32(ConstCTextBox.Text) * (tempDValueList[i] - ValuesFromSgnFunctionList[i]) * Point[j]);
+                        Delta[j] = (1.0 / 2.0) * Convert.ToDouble(ConstCTextBox.Text.Replace('.', ',')) * (tempDValueList[i] - ValuesFromSgnFunctionList[i]) * Point[j];
                         Weight[j] = Weight[j] + Delta[j];
                     }
                     WeightsList[i] = Weight;//zamiana wagi
@@ -594,7 +580,7 @@ namespace NeuralNetworkApp
                 }
                 else
                 {
-                    DeltaList[i] = new int[3] { 0, 0, 0 };
+                    DeltaList[i] = new double[3] { 0, 0, 0 };
                 }
             }
             PValue++;
@@ -723,18 +709,18 @@ namespace NeuralNetworkApp
             this.Close();
             
         }
-
         #region DataValidation
-        private void ConstCTextBox_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void CheckConstCTextBox(object sender, RoutedEventArgs e)
         {
-            if (ConstCTextBox.Text.Equals("") || !Regex.IsMatch(ConstCTextBox.Text, @"^\-*\d+$"))
+            if (ConstCTextBox.Text.Equals("") || !Regex.IsMatch(ConstCTextBox.Text, @"^[0-9]*(?:[\.\,][0-9]*)?$"))
             {
                 ConstCTextBox.Text = "1";
                 MessageBox.Show("The C field accepts only numeric values");
             }
         }
 
-        private void MaxIterationsTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void CheckMaxIterationsTextBox(object sender, RoutedEventArgs e)
         {
             if (MaxIterationsTextBox.Text.Equals("") || !Regex.IsMatch(MaxIterationsTextBox.Text, @"^\d+$"))
             {
@@ -744,12 +730,12 @@ namespace NeuralNetworkApp
             }
         }
 
-        private void SleepTimerTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void CheckSleepTimerTextBox(object sender, RoutedEventArgs e)
         {
-            if (SleepTimerTextBox.Text.Equals("") || !Regex.IsMatch(SleepTimerTextBox.Text, @"^\d+$"))
+            if (SleepTimerTextBox.Text.Equals("") || !Regex.IsMatch(SleepTimerTextBox.Text, @"^[0-9]*(?:[\.\,][0-9]*)?$"))
             {
 
-                SleepTimerTextBox.Text = "1";
+                SleepTimerTextBox.Text = "0";
                 MessageBox.Show("The Sleep Timer field accepts only numeric values");
             }
         }
@@ -758,25 +744,25 @@ namespace NeuralNetworkApp
         {
             var TextChecker = sender as pointValueUserControl;
 
-                //sprawdzanie osobno dla kazdego pola znajdującego się w kontrolce uzytkownika
-                if (TextChecker.pointValueTextBox1.Text.Equals("") || !Regex.IsMatch(TextChecker.pointValueTextBox1.Text, @"^\-*\d+$"))
-                {
-                    TextChecker.pointValueTextBox1.Text = "0";
-                    MessageBox.Show($"The {TextChecker.pointValueTextBlock.Text.Substring(0, 2)} is empty or contains a letter");
-                }
+            //sprawdzanie osobno dla kazdego pola znajdującego się w kontrolce uzytkownika
+            if (TextChecker.pointValueTextBox1.Text.Equals("") || !Regex.IsMatch(TextChecker.pointValueTextBox1.Text, @"^\-*[0-9]*(?:[\.\,][0-9]*)?$"))
+            {
+                TextChecker.pointValueTextBox1.Text = "0";
+                MessageBox.Show($"The {TextChecker.pointValueTextBlock.Text.Substring(0, 2)} is empty or contains a letter");
+            }
 
-                if (TextChecker.pointValueTextBox2.Text.Equals("") || !Regex.IsMatch(TextChecker.pointValueTextBox2.Text, @"^\-*\d+$"))
-                {
-                    TextChecker.pointValueTextBox2.Text = "0";
-                    MessageBox.Show($"The {TextChecker.pointValueTextBlock.Text.Substring(0, 2)} is empty or contains a letter");
-                }
+            if (TextChecker.pointValueTextBox2.Text.Equals("") || !Regex.IsMatch(TextChecker.pointValueTextBox2.Text, @"^\-*[0-9]*(?:[\.\,][0-9]*)?$"))
+            {
+                TextChecker.pointValueTextBox2.Text = "0";
+                MessageBox.Show($"The  {TextChecker.pointValueTextBlock.Text.Substring(0, 2)} is empty or contains a letter");
+            }
 
-                if (TextChecker.pointValueTextBox3.Text.Equals("") || !Regex.IsMatch(TextChecker.pointValueTextBox3.Text, @"^\-*\d+$"))
-                {
-                    TextChecker.pointValueTextBox3.Text = "0";
-                    MessageBox.Show($"The {TextChecker.pointValueTextBlock.Text.Substring(0, 2)} is empty or contains a letter");
-                }
-            
+            if (TextChecker.pointValueTextBox3.Text.Equals("") || !Regex.IsMatch(TextChecker.pointValueTextBox3.Text, @"^\-*[0-9]*(?:[\.\,][0-9]*)?$"))
+            {
+                TextChecker.pointValueTextBox3.Text = "0";
+                MessageBox.Show($"The {TextChecker.pointValueTextBlock.Text.Substring(0, 2)} is empty or contains a letter");
+            }
+
         }
         #endregion
 
@@ -816,6 +802,11 @@ namespace NeuralNetworkApp
                 item.IsEnabled = false;
             }
         }
+
+
+
         #endregion
+
+
     }
 }
