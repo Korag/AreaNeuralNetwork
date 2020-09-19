@@ -2,7 +2,7 @@
 
 The repository contains a program that uses a neural network to recognize the neighborhood of points in a 2-dimensional cartesian coordinate system. 
 
-![alt text](https://github.com/Korag/DocumentationImages/blob/master/AreaNeuralNetwork/AreaNeuralNetwork_1.PNG "Application")
+![alt text](https://github.com/Korag/DocumentationImages/blob/master/AreaNeuralNetwork/AreaNeuralNetwork_1.png "Application")
 
 ## Vertisio group
 
